@@ -22,7 +22,7 @@ code_clipboard: true
 
 ## Welcome to Menu Backend API!
 
-### Contributor:
+### Contributors:
 
 * Sai Sriram
 * Colin King
