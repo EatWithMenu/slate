@@ -89,9 +89,26 @@ print(response.text)
     "result": "Logout successful. Refresh token successfully revoked."
 }
 
+### POST to /auth/logout/ and /auth/logout2/
+
 After login, the frontend user possesses an **access token** and a **refresh token**. When logging out, the backend needs to revoke both of these tokens so they are no longer viable. To do this, the logout process provides two endpoints: `/auth/logout/` and `/auth/logout2/`, which revoke the active access token and refresh token, respectively. The POST body can be empty, but `/auth/logout/` requires the access token header `Authorization: Bearer insert_access_token_here`, and `/auth/logout2/` requires the refresh token header `Authorization: Bearer insert_refresh_token_here`. Upon success, a success message is returned in both cases.
 
 ## Manage refresh token
+
+### POST to /auth/refresh/
+
+```python
+# Obtain a new valid access token using a valid refresh token:
+data = {} # Empty POST body
+headers = {'Authorization': 'Bearer insert_refresh_token_here'}
+response = requests.post("https://www.menubackend.com/auth/refresh/", headers=headers, json=data) 
+print(response.text)
+```
+>{
+    "result": {"access_token": "eyJ0eXAiOiJKV1QiLCJhbGciO..."}
+}
+
+Sending a POST to this endpoint with a valid refresh token in the headers (`Authorization: Bearer insert_refresh_token_here`) issues a new valid access token.
 
 ## Forgot password
 
