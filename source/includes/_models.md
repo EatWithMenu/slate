@@ -23,6 +23,7 @@ tags | `ListField(StringField())` | Array of String | tags associated with menu 
 ## Restaurant
 
 ### Restaurant model
+
 Field Name | Code | Type | Description | Required
 ---------- | ---- | ---- | ----------- | --------
 _id | `ObjectIdField(primary_key=True)` | ObjectID | MongoDB Id of restaurant | **Required**
@@ -37,6 +38,7 @@ loc | `StringField()` | String | restaurant address |
 menudict | `ListField(ReferenceField(Item))` | Array of ObjectID | object ids of menu item that the restaurant serves |
 
 ### Attributes model embedded inside Restaurant model
+
 Field Name | Code | Type | Description | Required
 ---------- | ---- | ---- | ----------- | --------
 piclink | `StringField()` | String | url of restaurant picture |
@@ -50,4 +52,26 @@ website | `StringField()` | String | restaurant website link |
 
 ## Review
 
+### Review model
+
+Field Name | Code | Type | Description | Required
+---------- | ---- | ---- | ----------- | --------
+location | `ReferenceField('Restaurant', required=True)` | ObjectID | MongoDb object id of restaurant model | **Required**
+name | `StringField(required=True)` | String | reviewer name |
+city | `StringField(required=True)` | String | city location name |
+overallrating | `IntField()` | Integer | overall rating for this review |
+subratings | `EmbeddedDocumentField(Subrating)` | Subrating model | subrating information for this review
+text | `StringField()` | String | review text |
+
+### Subrating model
+
+Field Name | Code | Type | Description | Required
+---------- | ---- | ---- | ----------- | --------
+overall | `IntField()` | Integer | overall rating |
+food | `IntField()` | Integer | food rating | 
+service | `IntField()` | Integer | service rating |
+ambience | `IntField()` | Integer | ambience rating |
+
+
 ## User
+
