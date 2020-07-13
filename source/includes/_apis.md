@@ -135,9 +135,29 @@ print(response.text)
 
 **[This endpoint works with /auth/forgot/, so is still under construction.** Sending a POST to this endpoint with the reset token in the request body as well as the user's new password. The endpoint will update the user's password and send a confirmation email to them that the password has been changed.
 
+# Query API
+```python
+data = { "name": "Avalon Diner", "addr": "12810 Southwest Fwy. Stafford, TX 77477"} # query the database for restaurant named Avalon diner at that address
+response = requests.post("https://www.menubackend.com/query/restaurant/", json=data) 
+print(response.text)
+```
+> {
+        "result": [
+            {
+                "_id": ...
+                "addr": "12810 Southwest Fwy. Stafford, TX 77477"
+                ... etc ...
+            }
+        ]
+    }
+
+Resource for querying the mongoDB Restaurant collection from an HTTP request. Post request must contain header Content-Type: application/json and the body must be a JSON query. Response is a JSON with one key -- "result" whose corresponding value is a JSON List containing JSON dicts for every restuarant matching the query. If the JSON List is empty, nothing in the database matched the query.
+
+Analagous post requests can be sent to the `/query/item/` endpoint to query the database for menu items.
+
 # Category API
 
-## Manage categories
+## Get all categories
 
 ### GET to /category/
 ```python
@@ -149,6 +169,8 @@ print(response.text)
 >{'result': ['array of all categories']}
 
 To obtain all the categories in the database, send a get request to this endpoint with an access token in the header.
+
+## Add a categories
 
 ### POST to /category/
 ```python
@@ -162,6 +184,8 @@ print(response.text)
 
 To add a category to the database, send a post request to this endpoint with the access token **from a user with admin priviledges** (admin = true in the access field of the [user](#user) model). If added successfully, returns the category id.
 
+## Get a specific category
+
 ### GET to /category/category_id/
 ```python
 headers = {'Authorization': 'Bearer insert_access_token_here'}
@@ -172,6 +196,8 @@ print(response.text)
 >{'result': {"_id": {"$oid": "category_id"}, "description": "category_description", "items": [], "tags":[], "name":"category_name"}}
 
 To obtain a specific category, send a get request to this endpoint with an access token in the header and category id in the URL.
+
+## Update a specific category
 
 ### PUT to /category/category_id/
 ```python
@@ -184,6 +210,8 @@ print(response.text)
 >{'result': {"_id": {"$oid": "category_id"}, "description": "category description update", "items": [], "tags":[], "name":"category_name"}}
 
 To update a specific category, send a put request to this endpoint with an **admin** access token in the header and category id in the URL, and the updated category fields in the body.
+
+## Delete a specific category
 
 ### DELETE to /category/category_id/
 ```python
@@ -198,11 +226,46 @@ To delete a specific category, send a delete request to this endpoint with an **
 
 # Menu Item API
 
-# Query API
+The Item API provides basic CRUD functionality which is very similar to the other CRUD APIs in our system.
+To the `\item\` endpoint, we support:
+* GET request (with a valid access token in the header), which returns all items in the database.
+* POST request (with an **admin** access token in the header), which allows creation of a new menu item on the database, where the POST body contains all the requireds fields of the (menu item)[#menu-item] model.
+To the `\item\item_id\` endpoint, we support:
+* GET request (with a valid access token in the header), which returns the specific item with `item_id` in the database.
+* PUT request (with an **admin** access token in the header), which updates the item with `item_id` in the database with the request's body contents.
+* DELETE request (with an **admin** access token in the header), which deletes the item with `item_id` in the database.
 
 # Restaurant API
 
+The Restaurant API provides basic CRUD functionality which is very similar to the other CRUD APIs in our system.
+To the `\restaurant\` endpoint, we support:
+* GET request (with a valid access token in the header), which returns all restaurants in the database.
+* POST request (with an **admin** access token in the header), which allows creation of a new restaurant on the database, where the POST body contains all the requireds fields of the (restaurant)[#restaurant] model.
+To the `\restaurant\restaurant_id\` endpoint, we support:
+* GET request (with a valid access token in the header), which returns the specific restaurant with `restaurant_id` in the database.
+* PUT request (with an **admin** access token in the header), which updates the restaurant with `restaurant_id` in the database with the request's body contents.
+* DELETE request (with an **admin** access token in the header), which deletes the restaurant with `restaurant_id` in the database.
+
 # Review API
 
+The Review API provides basic CRUD functionality which is very similar to the other CRUD APIs in our system.
+To the `\review\` endpoint, we support:
+* GET request (with a valid access token in the header), which returns all reviews in the database.
+* POST request (with an **admin** access token in the header), which allows creation of a new review on the database, where the POST body contains all the requireds fields of the (review)[#review] model.
+To the `\review\review_id\` endpoint, we support:
+* GET request (with a valid access token in the header), which returns the specific review with `review_id` in the database.
+* PUT request (with an **admin** access token in the header), which updates the review with `review_id` in the database with the request's body contents.
+* DELETE request (with an **admin** access token in the header), which deletes the review with `review_id` in the database.
+
+
 # User API
+
+The User API provides basic CRUD functionality which is very similar to the other CRUD APIs in our system.
+To the `\user\` endpoint, we support:
+* GET request (with a valid access token in the header), which returns all users in the database.
+* POST request (with an **admin** access token in the header), which allows creation of a new user on the database, where the POST body contains all the requireds fields of the (user)[#user] model.
+To the `\user\user_id\` endpoint, we support:
+* GET request (with a valid access token in the header), which returns the specific user with `user_id` in the database.
+* PUT request (with an **admin** access token in the header), which updates the user with `user_id` in the database with the request's body contents.
+* DELETE request (with an **admin** access token in the header), which deletes the user with `user_id` in the database.
 
