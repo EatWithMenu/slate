@@ -13,6 +13,7 @@ items | `ListField(ReferenceField(Item))` | Array of ObjectID | array of referen
 
 Field Name | Code | Type | Description | Required
 ---------- | ---- | ---- | ----------- | --------
+_id | `StringField(primary_key=True, required=True)` | String | MongoDB Primary Key hash, must be length 36 alphanumeric| **Required**
 location | `ReferenceField('Restaurant', required=True)` | ObjectID | reference to `Restaurant` model. | **Required**
 name | `StringField(required=True)` | String | name of menu item. |**Required**
 desc | `StringField()` | String | description of menu item. |
@@ -26,7 +27,7 @@ tags | `ListField(StringField())` | Array of String | tags associated with menu 
 
 Field Name | Code | Type | Description | Required
 ---------- | ---- | ---- | ----------- | --------
-_id | `ObjectIdField(primary_key=True)` | ObjectID | MongoDB Id of restaurant | **Required**
+_id | `_id = StringField(primary_key=True, required=True)` | String | MongoDB Primary Key hash, must be length 36 alphanumeric| **Required**
 name | `StringField(required=True)` | String | name of restaurant | **Required**
 link | `StringField()` | String | link to restaurant info |
 rating | `StringField()` | String | rating of restaurant |
@@ -91,22 +92,20 @@ phone | `PhoneField()` | Phone field | account phone number |
 
 Field Name | Code | Type | Description | Required
 ---------- | ---- | ---- | ----------- | --------
-vegetarian | `BooleanField(default=False)` | Boolean | is vegetarian? |
-keto | `BooleanField(default=False)` | Boolean | is keto? |
+restrictions | `ListField()` | Array of String | list of restrictions | 
 
 ### - Pref levels
 
 Field Name | Code | Type | Description | Required
 ---------- | ---- | ---- | ----------- | --------
-spice_pref | `IntField(default = 5)` | Integer | preference for spice | 
-chinese_pref | `IntField(default = 5)` | Integer | preference for chinese |
-finedine_pref | `IntField(default = 5)` | Integer | preference for fine dining | 
+preferences | `DictField()` | Dictionary (key = string, value = integer) | key-value pair of user preferences | 
+processed_prefs | `ListField()` | Array of String | cached preferences after being processed by dsci |
 
 ### - Other
 
 Field Name | Code | Type | Description | Required
 ---------- | ---- | ---- | ----------- | --------
-created_on | `DateTimeField(default = datetime.now)` | DateTime field | indicating when this account is generated
+created_on | `DateTimeField(default = datetime.now)` | DateTime field | indicates when this account was generated |
 fav_restaurant | `ReferenceField(Restaurant)` | Object ID | reference to restaurant model |
 
 
