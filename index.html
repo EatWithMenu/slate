@@ -337,13 +337,30 @@
               </ul>
           </li>
           <li>
+            <a href="#query-api" class="toc-h1 toc-link" data-title="Query API">Query API</a>
+          </li>
+          <li>
             <a href="#category-api" class="toc-h1 toc-link" data-title="Category API">Category API</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-all-categories" class="toc-h2 toc-link" data-title="Get all categories">Get all categories</a>
+                  </li>
+                  <li>
+                    <a href="#add-a-categories" class="toc-h2 toc-link" data-title="Add a categories">Add a categories</a>
+                  </li>
+                  <li>
+                    <a href="#get-a-specific-category" class="toc-h2 toc-link" data-title="Get a specific category">Get a specific category</a>
+                  </li>
+                  <li>
+                    <a href="#update-a-specific-category" class="toc-h2 toc-link" data-title="Update a specific category">Update a specific category</a>
+                  </li>
+                  <li>
+                    <a href="#delete-a-specific-category" class="toc-h2 toc-link" data-title="Delete a specific category">Delete a specific category</a>
+                  </li>
+              </ul>
           </li>
           <li>
             <a href="#menu-item-api" class="toc-h1 toc-link" data-title="Menu Item API">Menu Item API</a>
-          </li>
-          <li>
-            <a href="#query-api" class="toc-h1 toc-link" data-title="Query API">Query API</a>
           </li>
           <li>
             <a href="#restaurant-api" class="toc-h1 toc-link" data-title="Restaurant API">Restaurant API</a>
@@ -405,7 +422,7 @@
 <h1 id='authentication-api'>Authentication API</h1><h2 id='registration-sign-up'>Registration / Sign-up</h2><h3 id='post-to-auth-signup'>POST to /auth/signup/</h3><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
 
 <span class="c1"># User data includes all required fields of User model:
-</span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s">"username"</span><span class="p">:</span> <span class="s">"example_username"</span><span class="p">,</span> <span class="s">"password"</span><span class="p">:</span> <span class="s">"example_password"</span><span class="p">,</span> <span class="s">"email"</span><span class="p">:</span> <span class="s">"example@example.com"</span><span class="p">,</span> <span class="s">"phone"</span><span class="p">:</span> <span class="s">"111-111-1111"</span><span class="p">,</span> <span class="s">"access"</span><span class="p">:</span> <span class="p">{</span><span class="s">"user"</span><span class="p">:</span> <span class="s">"false"</span><span class="p">,</span> <span class="s">"admin"</span><span class="p">:</span> <span class="s">"true"</span><span class="p">},</span> <span class="s">"vegetarian"</span><span class="p">:</span> <span class="s">"true"</span><span class="p">,</span> <span class="s">"keto"</span><span class="p">:</span> <span class="s">"true"</span><span class="p">,</span> <span class="s">"spice_pref"</span><span class="p">:</span> <span class="s">"4"</span><span class="p">}</span>
+</span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s">"username"</span><span class="p">:</span> <span class="s">"example_username"</span><span class="p">,</span> <span class="s">"password"</span><span class="p">:</span> <span class="s">"example_password"</span><span class="p">,</span> <span class="s">"email"</span><span class="p">:</span> <span class="s">"example@example.com"</span><span class="p">,</span> <span class="s">"phone"</span><span class="p">:</span> <span class="s">"111-111-1111"</span><span class="p">,</span> <span class="s">"access"</span><span class="p">:</span> <span class="p">{</span><span class="s">"user"</span><span class="p">:</span> <span class="s">"true"</span><span class="p">,</span> <span class="s">"admin"</span><span class="p">:</span> <span class="s">"false"</span><span class="p">},</span>  <span class="s">"restrictions"</span><span class="p">:</span> <span class="p">[</span><span class="s">"vegetarian"</span><span class="p">,</span> <span class="s">"vegan"</span><span class="p">],</span> <span class="s">"preferences"</span><span class="p">:</span> <span class="p">{</span><span class="s">"Sushi"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s">"Asian"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s">"Latin American"</span><span class="p">:</span> <span class="mi">1</span><span class="p">}}</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">"https://www.menubackend.com/auth/signup/"</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">)</span> <span class="c1"># json=data automatically handles Content-Type header
 </span><span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
@@ -493,7 +510,160 @@
 </blockquote>
 
 <p>Sending a POST to this endpoint with a valid refresh token in the headers (<code>Authorization: Bearer insert_refresh_token_here</code>) issues a new valid access token.</p>
-<h2 id='forgot-password'>Forgot password</h2><h2 id='reset-password'>Reset password</h2><h1 id='category-api'>Category API</h1><h1 id='menu-item-api'>Menu Item API</h1><h1 id='query-api'>Query API</h1><h1 id='restaurant-api'>Restaurant API</h1><h1 id='review-api'>Review API</h1><h1 id='user-api'>User API</h1><h1 id='models'>Models</h1><h2 id='category'>Category</h2>
+<h2 id='forgot-password'>Forgot password</h2><h3 id='post-to-auth-forgot'>POST to /auth/forgot</h3><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s">"email"</span><span class="p">:</span> <span class="s">"example@example.com"</span><span class="p">}</span> <span class="c1"># email in the post body
+</span><span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">"https://www.menubackend.com/auth/forgot/"</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">)</span> 
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div>
+<blockquote>
+<p>{&#39;result&#39;: &#39;An email has been sent if this is a valid Menu email.&#39;}</p>
+</blockquote>
+
+<p><strong>[This endpoint is under construction. We need to set up a menu email first]</strong> Sending a POST to this endpoint with a user&#39;s email in the body will send an email to that address with a token in the email body. This token will be included in the body of the post request to the <a href="#reset-password">reset</a> endpoint.</p>
+<h2 id='reset-password'>Reset password</h2><h3 id='post-to-auth-reset'>POST to /auth/reset/</h3><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s">"reset_token"</span><span class="p">:</span> <span class="s">"insert_reset_token_from_email_here"</span><span class="p">,</span> <span class="s">"password"</span><span class="p">:</span> <span class="s">"new_password"</span><span class="p">}</span> <span class="c1"># reset token obtained from the email sent out by forgot endpoint
+</span><span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">"https://www.menubackend.com/auth/forgot/"</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">)</span> 
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div>
+<blockquote>
+<p>{&#39;result&#39;: &#39;Successfully reset password.&#39;}</p>
+</blockquote>
+
+<p><strong>[This endpoint works with /auth/forgot/, so is still under construction.</strong> Sending a POST to this endpoint with the reset token in the request body as well as the user&#39;s new password. The endpoint will update the user&#39;s password and send a confirmation email to them that the password has been changed.</p>
+<h1 id='query-api'>Query API</h1><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">data</span> <span class="o">=</span> <span class="p">{</span> <span class="s">"name"</span><span class="p">:</span> <span class="s">"Avalon Diner"</span><span class="p">,</span> <span class="s">"addr"</span><span class="p">:</span> <span class="s">"12810 Southwest Fwy. Stafford, TX 77477"</span><span class="p">}</span> <span class="c1"># query the database for restaurant named Avalon diner at that address
+</span><span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">"https://www.menubackend.com/query/restaurant/"</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">)</span> 
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div>
+<blockquote>
+<p>{
+        &quot;result&quot;: [
+            {
+                &quot;_id&quot;: ...
+                &quot;addr&quot;: &quot;12810 Southwest Fwy. Stafford, TX 77477&quot;
+                ... etc ...
+            }
+        ]
+    }</p>
+</blockquote>
+
+<p>Resource for querying the mongoDB Restaurant collection from an HTTP request. Post request must contain header Content-Type: application/json and the body must be a JSON query. Response is a JSON with one key -- &quot;result&quot; whose corresponding value is a JSON List containing JSON dicts for every restuarant matching the query. If the JSON List is empty, nothing in the database matched the query.</p>
+
+<p>Analagous post requests can be sent to the <code>/query/item/</code> endpoint to query the database for menu items.</p>
+<h1 id='category-api'>Category API</h1><h2 id='get-all-categories'>Get all categories</h2><h3 id='get-to-category'>GET to /category/</h3><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">'Authorization'</span><span class="p">:</span> <span class="s">'Bearer insert_access_token_here'</span><span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"https://www.menubackend.com/category/"</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span> 
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div>
+<blockquote>
+<p>{&#39;result&#39;: [&#39;array of all categories&#39;]}</p>
+</blockquote>
+
+<p>To obtain all the categories in the database, send a get request to this endpoint with an access token in the header.</p>
+<h2 id='add-a-categories'>Add a categories</h2><h3 id='post-to-category'>POST to /category/</h3><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">'Authorization'</span><span class="p">:</span> <span class="s">'Bearer insert_access_token_here'</span><span class="p">}</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s">"name"</span><span class="p">:</span> <span class="s">"category_name"</span><span class="p">,</span> <span class="s">"description"</span><span class="p">:</span> <span class="s">"category_description"</span><span class="p">,</span> <span class="s">"items"</span><span class="p">:[</span><span class="s">"array of references to item model"</span><span class="p">]}</span><span class="c1"># Must be admin user token
+</span><span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">"https://www.menubackend.com/category/"</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">)</span> 
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div>
+<blockquote>
+<p>{&#39;result&#39;: {&#39;id&#39;: &#39;category id&#39;}</p>
+</blockquote>
+
+<p>To add a category to the database, send a post request to this endpoint with the access token <strong>from a user with admin priviledges</strong> (admin = true in the access field of the <a href="#user">user</a> model). If added successfully, returns the category id.</p>
+<h2 id='get-a-specific-category'>Get a specific category</h2><h3 id='get-to-category-category_id'>GET to /category/category_id/</h3><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">'Authorization'</span><span class="p">:</span> <span class="s">'Bearer insert_access_token_here'</span><span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">"https://www.menubackend.com/category/"</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span> 
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div>
+<blockquote>
+<p>{&#39;result&#39;: {&quot;_id&quot;: {&quot;$oid&quot;: &quot;category_id&quot;}, &quot;description&quot;: &quot;category_description&quot;, &quot;items&quot;: [], &quot;tags&quot;:[], &quot;name&quot;:&quot;category_name&quot;}}</p>
+</blockquote>
+
+<p>To obtain a specific category, send a get request to this endpoint with an access token in the header and category id in the URL.</p>
+<h2 id='update-a-specific-category'>Update a specific category</h2><h3 id='put-to-category-category_id'>PUT to /category/category_id/</h3><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">'Authorization'</span><span class="p">:</span> <span class="s">'Bearer insert_access_token_here'</span><span class="p">}</span> <span class="c1"># Must be admin user token
+</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s">"description"</span><span class="p">:</span> <span class="s">"category description update"</span><span class="p">}</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">"https://www.menubackend.com/category/category_id"</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">)</span> 
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div>
+<blockquote>
+<p>{&#39;result&#39;: {&quot;_id&quot;: {&quot;$oid&quot;: &quot;category_id&quot;}, &quot;description&quot;: &quot;category description update&quot;, &quot;items&quot;: [], &quot;tags&quot;:[], &quot;name&quot;:&quot;category_name&quot;}}</p>
+</blockquote>
+
+<p>To update a specific category, send a put request to this endpoint with an <strong>admin</strong> access token in the header and category id in the URL, and the updated category fields in the body.</p>
+<h2 id='delete-a-specific-category'>Delete a specific category</h2><h3 id='delete-to-category-category_id'>DELETE to /category/category_id/</h3><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">'Authorization'</span><span class="p">:</span> <span class="s">'Bearer insert_access_token_here'</span><span class="p">}</span> <span class="c1"># Must be admin user token
+</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">delete</span><span class="p">(</span><span class="s">"https://www.menubackend.com/category/category_id"</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span> 
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div>
+<blockquote>
+<p>{&#39;result&#39;: {&quot;_id&quot;: {&quot;$oid&quot;: &quot;category_id&quot;}, &quot;description&quot;: &quot;category description update&quot;, &quot;items&quot;: [], &quot;tags&quot;:[], &quot;name&quot;:&quot;category_name&quot;}}</p>
+</blockquote>
+
+<p>To delete a specific category, send a delete request to this endpoint with an <strong>admin</strong> access token in the header and category id in the URL, and the updated category fields in the body.</p>
+<h1 id='menu-item-api'>Menu Item API</h1>
+<p>The Item API provides basic CRUD functionality which is very similar to the other CRUD APIs in our system.
+To the <code>\item\</code> endpoint, we support:</p>
+
+<ul>
+<li>GET request (with a valid access token in the header), which returns all items in the database.</li>
+<li>POST request (with an <strong>admin</strong> access token in the header), which allows creation of a new menu item on the database, where the POST body contains all the requireds fields of the <a href="#menu-item">menu item</a> model.</li>
+</ul>
+
+<p>To the <code>\item\item_id\</code> endpoint, we support:</p>
+
+<ul>
+<li>GET request (with a valid access token in the header), which returns the specific item with <code>item_id</code> in the database.</li>
+<li>PUT request (with an <strong>admin</strong> access token in the header), which updates the item with <code>item_id</code> in the database with the request&#39;s body contents.</li>
+<li>DELETE request (with an <strong>admin</strong> access token in the header), which deletes the item with <code>item_id</code> in the database.</li>
+</ul>
+<h1 id='restaurant-api'>Restaurant API</h1>
+<p>The Restaurant API provides basic CRUD functionality which is very similar to the other CRUD APIs in our system.
+To the <code>\restaurant\</code> endpoint, we support:</p>
+
+<ul>
+<li>GET request (with a valid access token in the header), which returns all restaurants in the database.</li>
+<li>POST request (with an <strong>admin</strong> access token in the header), which allows creation of a new restaurant on the database, where the POST body contains all the requireds fields of the <a href="#restaurant">restaurant</a> model.</li>
+</ul>
+
+<p>To the <code>\restaurant\restaurant_id\</code> endpoint, we support:</p>
+
+<ul>
+<li>GET request (with a valid access token in the header), which returns the specific restaurant with <code>restaurant_id</code> in the database.</li>
+<li>PUT request (with an <strong>admin</strong> access token in the header), which updates the restaurant with <code>restaurant_id</code> in the database with the request&#39;s body contents.</li>
+<li>DELETE request (with an <strong>admin</strong> access token in the header), which deletes the restaurant with <code>restaurant_id</code> in the database.</li>
+</ul>
+<h1 id='review-api'>Review API</h1>
+<p>The Review API provides basic CRUD functionality which is very similar to the other CRUD APIs in our system.
+To the <code>\review\</code> endpoint, we support:</p>
+
+<ul>
+<li>GET request (with a valid access token in the header), which returns all reviews in the database.</li>
+<li>POST request (with an <strong>admin</strong> access token in the header), which allows creation of a new review on the database, where the POST body contains all the requireds fields of the <a href="#review">review</a> model.</li>
+</ul>
+
+<p>To the <code>\review\review_id\</code> endpoint, we support:</p>
+
+<ul>
+<li>GET request (with a valid access token in the header), which returns the specific review with <code>review_id</code> in the database.</li>
+<li>PUT request (with an <strong>admin</strong> access token in the header), which updates the review with <code>review_id</code> in the database with the request&#39;s body contents.</li>
+<li>DELETE request (with an <strong>admin</strong> access token in the header), which deletes the review with <code>review_id</code> in the database.</li>
+</ul>
+<h1 id='user-api'>User API</h1>
+<p>The User API provides basic CRUD functionality which is very similar to the other CRUD APIs in our system.
+To the <code>\user\</code> endpoint, we support:</p>
+
+<ul>
+<li>GET request (with a valid access token in the header), which returns all users in the database.</li>
+<li>POST request (with an <strong>admin</strong> access token in the header), which allows creation of a new user on the database, where the POST body contains all the requireds fields of the <a href="#user">user</a> model.</li>
+</ul>
+
+<p>To the <code>\user\user_id\</code> endpoint, we support:</p>
+
+<ul>
+<li>GET request (with a valid access token in the header), which returns the specific user with <code>user_id</code> in the database.</li>
+<li>PUT request (with an <strong>admin</strong> access token in the header), which updates the user with <code>user_id</code> in the database with the request&#39;s body contents.</li>
+<li>DELETE request (with an <strong>admin</strong> access token in the header), which deletes the user with <code>user_id</code> in the database.</li>
+</ul>
+<h1 id='models'>Models</h1><h2 id='category'>Category</h2>
 <table><thead>
 <tr>
 <th>Field Name</th>
@@ -542,6 +712,13 @@
 <th>Required</th>
 </tr>
 </thead><tbody>
+<tr>
+<td>_id</td>
+<td><code>StringField(primary_key=True, required=True)</code></td>
+<td>String</td>
+<td>MongoDB Primary Key hash, must be length 36 alphanumeric</td>
+<td><strong>Required</strong></td>
+</tr>
 <tr>
 <td>location</td>
 <td><code>ReferenceField(&#39;Restaurant&#39;, required=True)</code></td>
@@ -597,9 +774,9 @@
 </thead><tbody>
 <tr>
 <td>_id</td>
-<td><code>ObjectIdField(primary_key=True)</code></td>
-<td>ObjectID</td>
-<td>MongoDB Id of restaurant</td>
+<td><code>_id = StringField(primary_key=True, required=True)</code></td>
+<td>String</td>
+<td>MongoDB Primary Key hash, must be length 36 alphanumeric</td>
 <td><strong>Required</strong></td>
 </tr>
 <tr>
@@ -875,17 +1052,10 @@
 </tr>
 </thead><tbody>
 <tr>
-<td>vegetarian</td>
-<td><code>BooleanField(default=False)</code></td>
-<td>Boolean</td>
-<td>is vegetarian?</td>
-<td></td>
-</tr>
-<tr>
-<td>keto</td>
-<td><code>BooleanField(default=False)</code></td>
-<td>Boolean</td>
-<td>is keto?</td>
+<td>restrictions</td>
+<td><code>ListField()</code></td>
+<td>Array of String</td>
+<td>list of restrictions</td>
 <td></td>
 </tr>
 </tbody></table>
@@ -900,24 +1070,17 @@
 </tr>
 </thead><tbody>
 <tr>
-<td>spice_pref</td>
-<td><code>IntField(default = 5)</code></td>
-<td>Integer</td>
-<td>preference for spice</td>
+<td>preferences</td>
+<td><code>DictField()</code></td>
+<td>Dictionary (key = string, value = integer)</td>
+<td>key-value pair of user preferences</td>
 <td></td>
 </tr>
 <tr>
-<td>chinese_pref</td>
-<td><code>IntField(default = 5)</code></td>
-<td>Integer</td>
-<td>preference for chinese</td>
-<td></td>
-</tr>
-<tr>
-<td>finedine_pref</td>
-<td><code>IntField(default = 5)</code></td>
-<td>Integer</td>
-<td>preference for fine dining</td>
+<td>processed_prefs</td>
+<td><code>ListField()</code></td>
+<td>Array of String</td>
+<td>cached preferences after being processed by dsci</td>
 <td></td>
 </tr>
 </tbody></table>
@@ -935,7 +1098,7 @@
 <td>created_on</td>
 <td><code>DateTimeField(default = datetime.now)</code></td>
 <td>DateTime field</td>
-<td>indicating when this account is generated</td>
+<td>indicates when this account was generated</td>
 <td></td>
 </tr>
 <tr>
