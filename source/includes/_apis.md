@@ -9,7 +9,7 @@
 import requests
 
 # User data includes all required fields of User model:
-data = {"username": "example_username", "password": "example_password", "email": "example@example.com", "phone": "111-111-1111", "access": {"user": "false", "admin": "true"}, "vegetarian": "true", "keto": "true", "spice_pref": "4"}
+data = {"username": "example_username", "password": "example_password", "email": "example@example.com", "phone": "111-111-1111", "access": {"user": "true", "admin": "false"},  "restrictions": ["vegetarian", "vegan"], "preferences": {"Sushi": 10, "Asian": 10, "Latin American": 1}}
 
 response = requests.post("https://www.menubackend.com/auth/signup/", json=data) # json=data automatically handles Content-Type header
 print(response.text)
@@ -112,9 +112,89 @@ Sending a POST to this endpoint with a valid refresh token in the headers (`Auth
 
 ## Forgot password
 
+### POST to /auth/forgot
+
+```python
+data = {"email": "example@example.com"} # email in the post body
+response = requests.post("https://www.menubackend.com/auth/forgot/", json=data) 
+print(response.text)
+```
+>{'result': 'An email has been sent if this is a valid Menu email.'}
+
+**[This endpoint is under construction. We need to set up a menu email first]** Sending a POST to this endpoint with a user's email in the body will send an email to that address with a token in the email body. This token will be included in the body of the post request to the [reset](#reset-password) endpoint.
+
 ## Reset password
 
+### POST to /auth/reset/
+```python
+data = {"reset_token": "insert_reset_token_from_email_here", "password": "new_password"} # reset token obtained from the email sent out by forgot endpoint
+response = requests.post("https://www.menubackend.com/auth/forgot/", json=data) 
+print(response.text)
+```
+>{'result': 'Successfully reset password.'}
+
+**[This endpoint works with /auth/forgot/, so is still under construction.** Sending a POST to this endpoint with the reset token in the request body as well as the user's new password. The endpoint will update the user's password and send a confirmation email to them that the password has been changed.
+
 # Category API
+
+## Manage categories
+
+### GET to /category/
+```python
+headers = {'Authorization': 'Bearer insert_access_token_here'}
+
+response = requests.get("https://www.menubackend.com/category/", headers=headers) 
+print(response.text)
+```
+>{'result': ['array of all categories']}
+
+To obtain all the categories in the database, send a get request to this endpoint with an access token in the header.
+
+### POST to /category/
+```python
+headers = {'Authorization': 'Bearer insert_access_token_here'}
+
+data = {"name": "category_name", "description": "category_description", "items":["array of references to item model"]}# Must be admin user token
+response = requests.post("https://www.menubackend.com/category/", headers=headers, json=data) 
+print(response.text)
+```
+>{'result': {'id': 'category id'}
+
+To add a category to the database, send a post request to this endpoint with the access token **from a user with admin priviledges** (admin = true in the access field of the [user](#user) model). If added successfully, returns the category id.
+
+### GET to /category/category_id/
+```python
+headers = {'Authorization': 'Bearer insert_access_token_here'}
+
+response = requests.post("https://www.menubackend.com/category/", headers=headers) 
+print(response.text)
+```
+>{'result': {"_id": {"$oid": "category_id"}, "description": "category_description", "items": [], "tags":[], "name":"category_name"}}
+
+To obtain a specific category, send a get request to this endpoint with an access token in the header and category id in the URL.
+
+### PUT to /category/category_id/
+```python
+headers = {'Authorization': 'Bearer insert_access_token_here'} # Must be admin user token
+
+data = {"description": "category description update"}
+response = requests.post("https://www.menubackend.com/category/category_id", headers=headers, json=data) 
+print(response.text)
+```
+>{'result': {"_id": {"$oid": "category_id"}, "description": "category description update", "items": [], "tags":[], "name":"category_name"}}
+
+To update a specific category, send a put request to this endpoint with an **admin** access token in the header and category id in the URL, and the updated category fields in the body.
+
+### DELETE to /category/category_id/
+```python
+headers = {'Authorization': 'Bearer insert_access_token_here'} # Must be admin user token
+
+response = requests.delete("https://www.menubackend.com/category/category_id", headers=headers) 
+print(response.text)
+```
+>{'result': {"_id": {"$oid": "category_id"}, "description": "category description update", "items": [], "tags":[], "name":"category_name"}}
+
+To delete a specific category, send a delete request to this endpoint with an **admin** access token in the header and category id in the URL, and the updated category fields in the body.
 
 # Menu Item API
 
