@@ -58,8 +58,8 @@ website | `StringField()` | String | restaurant website link |
 Field Name | Code | Type | Description | Required
 ---------- | ---- | ---- | ----------- | --------
 location | `ReferenceField('Restaurant', required=True)` | ObjectID | MongoDb object id of restaurant model | **Required**
-name | `StringField(required=True)` | String | reviewer name |
-city | `StringField(required=True)` | String | city location name |
+name | `StringField(required=True)` | String | reviewer name | **Required**
+city | `StringField(required=True)` | String | city location name | **Required**
 overallrating | `IntField()` | Integer | overall rating for this review |
 subratings | `EmbeddedDocumentField(Subrating)` | Subrating model | subrating information for this review
 text | `StringField()` | String | review text |
