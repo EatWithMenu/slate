@@ -228,9 +228,12 @@ To delete a specific category, send a delete request to this endpoint with an **
 
 The Item API provides basic CRUD functionality which is very similar to the other CRUD APIs in our system.
 To the `\item\` endpoint, we support:
+
 * GET request (with a valid access token in the header), which returns all items in the database.
-* POST request (with an **admin** access token in the header), which allows creation of a new menu item on the database, where the POST body contains all the requireds fields of the (menu item)[#menu-item] model.
+* POST request (with an **admin** access token in the header), which allows creation of a new menu item on the database, where the POST body contains all the requireds fields of the [menu item](#menu-item) model.
+
 To the `\item\item_id\` endpoint, we support:
+
 * GET request (with a valid access token in the header), which returns the specific item with `item_id` in the database.
 * PUT request (with an **admin** access token in the header), which updates the item with `item_id` in the database with the request's body contents.
 * DELETE request (with an **admin** access token in the header), which deletes the item with `item_id` in the database.
@@ -239,9 +242,12 @@ To the `\item\item_id\` endpoint, we support:
 
 The Restaurant API provides basic CRUD functionality which is very similar to the other CRUD APIs in our system.
 To the `\restaurant\` endpoint, we support:
+
 * GET request (with a valid access token in the header), which returns all restaurants in the database.
-* POST request (with an **admin** access token in the header), which allows creation of a new restaurant on the database, where the POST body contains all the requireds fields of the (restaurant)[#restaurant] model.
+* POST request (with an **admin** access token in the header), which allows creation of a new restaurant on the database, where the POST body contains all the requireds fields of the [restaurant](#restaurant) model.
+
 To the `\restaurant\restaurant_id\` endpoint, we support:
+
 * GET request (with a valid access token in the header), which returns the specific restaurant with `restaurant_id` in the database.
 * PUT request (with an **admin** access token in the header), which updates the restaurant with `restaurant_id` in the database with the request's body contents.
 * DELETE request (with an **admin** access token in the header), which deletes the restaurant with `restaurant_id` in the database.
@@ -250,9 +256,12 @@ To the `\restaurant\restaurant_id\` endpoint, we support:
 
 The Review API provides basic CRUD functionality which is very similar to the other CRUD APIs in our system.
 To the `\review\` endpoint, we support:
+
 * GET request (with a valid access token in the header), which returns all reviews in the database.
-* POST request (with an **admin** access token in the header), which allows creation of a new review on the database, where the POST body contains all the requireds fields of the (review)[#review] model.
+* POST request (with an **admin** access token in the header), which allows creation of a new review on the database, where the POST body contains all the requireds fields of the [review](#review) model.
+
 To the `\review\review_id\` endpoint, we support:
+
 * GET request (with a valid access token in the header), which returns the specific review with `review_id` in the database.
 * PUT request (with an **admin** access token in the header), which updates the review with `review_id` in the database with the request's body contents.
 * DELETE request (with an **admin** access token in the header), which deletes the review with `review_id` in the database.
@@ -262,9 +271,12 @@ To the `\review\review_id\` endpoint, we support:
 
 The User API provides basic CRUD functionality which is very similar to the other CRUD APIs in our system.
 To the `\user\` endpoint, we support:
+
 * GET request (with a valid access token in the header), which returns all users in the database.
-* POST request (with an **admin** access token in the header), which allows creation of a new user on the database, where the POST body contains all the requireds fields of the (user)[#user] model.
+* POST request (with an **admin** access token in the header), which allows creation of a new user on the database, where the POST body contains all the requireds fields of the [user](#user) model.
+
 To the `\user\user_id\` endpoint, we support:
+
 * GET request (with a valid access token in the header), which returns the specific user with `user_id` in the database.
 * PUT request (with an **admin** access token in the header), which updates the user with `user_id` in the database with the request's body contents.
 * DELETE request (with an **admin** access token in the header), which deletes the user with `user_id` in the database.
