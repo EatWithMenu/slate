@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Menu Backend API Reference</title>
+    <title>Menu API Reference</title>
 
     <style media="screen">
       .highlight table td { padding: 5px; }
@@ -306,10 +306,10 @@
         <ul class="search-results"></ul>
       <ul id="toc" class="toc-list-h1">
           <li>
-            <a href="#menu-backend-api" class="toc-h1 toc-link" data-title="Menu Backend API">Menu Backend API</a>
+            <a href="#menu-api" class="toc-h1 toc-link" data-title="Menu API">Menu API</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#welcome-to-menu-backend-api" class="toc-h2 toc-link" data-title="Welcome to Menu Backend API!">Welcome to Menu Backend API!</a>
+                    <a href="#welcome-to-menu-api" class="toc-h2 toc-link" data-title="Welcome to Menu API!">Welcome to Menu API!</a>
                   </li>
               </ul>
           </li>
@@ -372,6 +372,23 @@
             <a href="#user-api" class="toc-h1 toc-link" data-title="User API">User API</a>
           </li>
           <li>
+            <a href="#dsci-api" class="toc-h1 toc-link" data-title="DSCI API">DSCI API</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#reviews" class="toc-h2 toc-link" data-title="Reviews">Reviews</a>
+                  </li>
+                  <li>
+                    <a href="#user-preference" class="toc-h2 toc-link" data-title="User preference">User preference</a>
+                  </li>
+                  <li>
+                    <a href="#search-results" class="toc-h2 toc-link" data-title="Search results">Search results</a>
+                  </li>
+                  <li>
+                    <a href="#restaurant-menu" class="toc-h2 toc-link" data-title="Restaurant menu">Restaurant menu</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#models" class="toc-h1 toc-link" data-title="Models">Models</a>
               <ul class="toc-list-h2">
                   <li>
@@ -401,18 +418,21 @@
           </li>
       </ul>
         <ul class="toc-footer">
-            <li><a href='https://github.com/sj43/menu-backend'>View Menu Backend Github Repo</a></li>
+            <li><a href='https://github.com/eatwithmenu/menu-backend'>View Menu Backend Github Repo</a></li>
+            <li><a href='https://github.com/eatwithmenu/menu-dsci'>View Menu DSCI Github Repo</a></li>
             <li><a href='https://github.com/slatedocs/slate'>Documentation Powered by Slate</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-        <h1 id='menu-backend-api'>Menu Backend API</h1><h2 id='welcome-to-menu-backend-api'>Welcome to Menu Backend API!</h2><h3 id='contributors'>Contributors:</h3>
+        <h1 id='menu-api'>Menu API</h1><h2 id='welcome-to-menu-api'>Welcome to Menu API!</h2><h3 id='contributors'>Contributors:</h3>
 <ul>
 <li>Sai Sriram</li>
 <li>Colin King</li>
 <li>Seung Hun Jang</li>
+<li>Timothy Goh</li>
+<li>Michael Sprintson</li>
 </ul>
 <h3 id='useful-links'>Useful Links:</h3>
 <ul>
@@ -662,6 +682,203 @@ To the <code>\user\</code> endpoint, we support:</p>
 <li>GET request (with a valid access token in the header), which returns the specific user with <code>user_id</code> in the database.</li>
 <li>PUT request (with an <strong>admin</strong> access token in the header), which updates the user with <code>user_id</code> in the database with the request&#39;s body contents.</li>
 <li>DELETE request (with an <strong>admin</strong> access token in the header), which deletes the user with <code>user_id</code> in the database.</li>
+</ul>
+<h1 id='dsci-api'>DSCI API</h1>
+<p><strong>Note:</strong> Frontend should NOT call this directly; you should call backend&#39;s endpoint which then calls these.</p>
+<h2 id='reviews'>Reviews</h2><h3 id='post-to-usefulreviewsgen'>POST to /usefulreviewsgen/</h3><div class="highlight"><pre class="highlight python tab-python"><code><span class="c1"># Get useful reviews
+</span><span class="n">rhash</span> <span class="o">=</span> <span class="s">'0b7f3d99-13ce-4d45-955e-71902c4cb9a4'</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="n">awsurl</span> <span class="o">+</span> <span class="s">'usefulreviewsgen/'</span><span class="p">,</span> <span class="n">json</span> <span class="o">=</span> <span class="p">{</span><span class="s">'rhash'</span><span class="p">:</span><span class="n">rhash</span><span class="p">})</span>
+<span class="n">newdict</span> <span class="o">=</span> <span class="n">ast</span><span class="p">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="s">'Infinity'</span><span class="p">,</span> <span class="s">'-1'</span><span class="p">).</span><span class="n">replace</span><span class="p">(</span><span class="s">'false'</span><span class="p">,</span> <span class="s">'False'</span><span class="p">).</span><span class="n">replace</span><span class="p">(</span><span class="s">'null'</span><span class="p">,</span><span class="s">'None'</span><span class="p">))</span>
+</code></pre></div>
+<blockquote>
+<p>[
+    {
+        &#39;name&#39;: &#39;RevrendDr&#39;,
+        &#39;city&#39;: &#39;Kansas City&#39;,
+        &#39;text&#39;: &#39;The mushroom risotto was delicious, as was the lobster bisque.  Also had the lamb shank, which was nice and tender.  The white sangria on special every Saturday night was also a big hit.  Our waitress was sweet and attentive, if a little new.  Will definitely go back for another visit.&#39;,
+        &#39;overallrating&#39;: &#39;5&#39;,
+        &#39;subratings&#39;:
+            {
+                &#39;Overall&#39;: &#39;5&#39;, 
+                &#39;food&#39;: &#39;5&#39;,
+                &#39;service&#39;: &#39;4&#39;,
+                &#39;ambience&#39;: &#39;4&#39;
+            }
+   }, ... # Other reviews left out for clarity
+]</p>
+</blockquote>
+
+<p>Getting useful reviews is performed by sending a POST request to the endpoint at <code>/usefulreviewsgen/</code>. The body of the POST includes <code>rhash</code>. The header must include <code>Content-Type: application/json</code>. Upon success, a list of dictionaries representing reviews is returned.</p>
+
+<p><strong>Inputs</strong></p>
+
+<ul>
+<li><code>rhash</code>: the restaurant hash</li>
+</ul>
+
+<p><strong>Outputs</strong></p>
+
+<ul>
+<li>List of dictionaries, each one containing:
+
+<ul>
+<li><code>name</code> : <code>&lt;name of the reviewer&gt;</code></li>
+<li><code>city</code> : <code>&lt;city the reviewer is from (i think)&gt;</code></li>
+<li><code>text</code> : <code>&lt;review text&gt;</code></li>
+<li><code>overallrating</code> : <code>&lt;rating of the review&gt;</code></li>
+<li><code>subratings</code> : <code>&lt;dict of subratings the user gave the restaurant&gt;</code></li>
+</ul></li>
+</ul>
+<h2 id='user-preference'>User preference</h2><h3 id='post-to-usrprefgen'>POST to /usrprefgen/</h3><div class="highlight"><pre class="highlight python tab-python"><code><span class="c1"># Generate user preferences
+</span><span class="n">prefdict</span> <span class="o">=</span> <span class="p">{</span><span class="s">'Sushi'</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s">'Asian'</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s">'Latin Ameridfasdfcan'</span><span class="p">:</span> <span class="mi">10</span><span class="p">}</span>
+<span class="n">test_cluster_group_prefs</span> <span class="o">=</span> <span class="p">{</span><span class="s">'0'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">'2'</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s">'3'</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s">'6'</span><span class="p">:</span><span class="mi">2</span><span class="p">}</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="n">awsurl</span> <span class="o">+</span> <span class="s">'usrprefgen/'</span><span class="p">,</span> <span class="n">json</span> <span class="o">=</span> <span class="p">{</span><span class="s">'prefscu'</span><span class="p">:</span><span class="n">prefdict</span><span class="p">,</span> <span class="s">'prefscl'</span><span class="p">:</span> <span class="n">test_cluster_group_prefs</span><span class="p">})</span>
+<span class="n">utdl</span> <span class="o">=</span> <span class="n">ast</span><span class="p">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="s">'Infinity'</span><span class="p">,</span> <span class="s">'-1'</span><span class="p">).</span><span class="n">replace</span><span class="p">(</span><span class="s">'false'</span><span class="p">,</span> <span class="s">'False'</span><span class="p">).</span><span class="n">replace</span><span class="p">(</span><span class="s">'null'</span><span class="p">,</span><span class="s">'None'</span><span class="p">))</span>
+</code></pre></div>
+<blockquote>
+<p>[
+    {&#39;key&#39;: [&#39;piece&#39;, &#39;succulent&#39;], &#39;value&#39;: {&#39;score&#39;: 0.0039, &#39;n&#39;: 1.0}},
+    {&#39;key&#39;: [&#39;mole&#39;, &#39;annie&#39;], &#39;value&#39;: {&#39;score&#39;: 0.0039, &#39;n&#39;: 1.0}},
+    {&#39;key&#39;: [&#39;crawfish&#39;, &#39;étouffée&#39;], &#39;value&#39;: {&#39;score&#39;: 0.0039, &#39;n&#39;: 1.0}},
+    {&#39;key&#39;: [&#39;pickle&#39;, &#39;lodge&#39;], &#39;value&#39;: {&#39;score&#39;: 0.0039, &#39;n&#39;: 1.0}}
+]</p>
+</blockquote>
+
+<p>Takes a POST request optionally containing a cuisine preferences dictionary and/or a cluster preferences dictionary. Returns a list of dictionaries representing the user&#39;s preferences.</p>
+
+<p><strong>Inputs</strong></p>
+
+<ul>
+<li>(Optional) <code>prefcu</code>: a dictionary of cuisine names mapped to the score for that cuisine, which is a boundless integer, although this would work best with the score contained between -10 and 10. If any cuisine name is incorrect, that will be output in <code>log.txt</code>. All possible cuisines are listed on the right.
+
+<ul>
+<li>Example: <code>{&#39;Sushi&#39;: 10, &#39;Asian&#39;: 6, &#39;Latin American&#39;: 10}</code></li>
+</ul></li>
+<li>(Optional) <code>prefcl</code>: shows the user preference for each of the 54 clusters. The input dictionary is in the form of the string index of the cluster mapped to the integer score associated to that cluster. The keys can be any integer [0, 54] but 54 is kind of a useless cluster so it shouldn&#39;t be used as a key. The values can be any integer but should be constrained to [-10, 10] for best results. If an invalid key is provided, then it will be ignored and spit out in <code>log.txt</code>
+
+<ul>
+<li>Example: <code>{&#39;0&#39;: 1, &#39;2&#39;: 2, &#39;3&#39;: 3, &#39;6&#39;:2}</code></li>
+</ul></li>
+</ul>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="c1"># All possible cuisines (as of July 12, 2020)
+</span><span class="kn">from</span> <span class="nn">reccomender</span> <span class="kn">import</span> <span class="n">make_from_cluster</span> <span class="k">as</span> <span class="n">mfc</span>
+<span class="n">mfc</span><span class="p">.</span><span class="n">cuisine_list</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="p">[</span><span class="s">'American'</span><span class="p">,</span> <span class="s">'Seafood'</span><span class="p">,</span> <span class="s">'Steak'</span><span class="p">,</span> <span class="s">'Italian'</span><span class="p">,</span> <span class="s">'Steakhouse'</span><span class="p">,</span> <span class="s">'Contemporary American'</span><span class="p">,</span> <span class="s">'Southern'</span><span class="p">,</span> <span class="s">'Mexican'</span><span class="p">,</span> <span class="s">'Japanese'</span><span class="p">,</span> <span class="s">'French'</span><span class="p">,</span> <span class="s">'Wine Bar'</span><span class="p">,</span> <span class="s">'Comfort Food'</span><span class="p">,</span> <span class="s">'Contemporary Italian'</span><span class="p">,</span> <span class="s">'Latin American'</span><span class="p">,</span> <span class="s">'Tex-Mex'</span><span class="p">,</span> <span class="s">'Cajun'</span><span class="p">,</span> <span class="s">'Pizzeria'</span><span class="p">,</span> <span class="s">'Mediterranean'</span><span class="p">,</span> <span class="s">'Sushi'</span><span class="p">,</span> <span class="s">'International'</span><span class="p">,</span> <span class="s">'Lounge'</span><span class="p">,</span> <span class="s">'Spanish'</span><span class="p">,</span> <span class="s">'Asian'</span><span class="p">,</span> <span class="s">'Global'</span><span class="p">,</span> <span class="s">'Brazilian'</span><span class="p">,</span> <span class="s">'Shellfish'</span><span class="p">,</span> <span class="s">'Creole / Cajun / Southern'</span><span class="p">,</span> <span class="s">'Bar / Lounge / Bottle Service'</span><span class="p">,</span> <span class="s">'Tapas / Small Plates'</span><span class="p">,</span> <span class="s">'Contemporary Southern'</span><span class="p">,</span> <span class="s">'Bistro'</span><span class="p">,</span> <span class="s">'Brazilian Steakhouse'</span><span class="p">,</span> <span class="s">'European'</span><span class="p">,</span> <span class="s">'Pub'</span><span class="p">,</span> <span class="s">'Oyster Bar'</span><span class="p">,</span> <span class="s">'Cocktail Bar'</span><span class="p">,</span> <span class="s">'Chinese'</span><span class="p">,</span> <span class="s">'Contemporary French'</span><span class="p">,</span> <span class="s">'South American'</span><span class="p">,</span> <span class="s">'Fusion / Eclectic'</span><span class="p">,</span> <span class="s">'Farm-to-table'</span><span class="p">,</span> <span class="s">'Gastro Pub'</span><span class="p">,</span> <span class="s">'Sports Bar'</span><span class="p">,</span> <span class="s">'Indian'</span><span class="p">,</span> <span class="s">'Contemporary French / American'</span><span class="p">,</span> <span class="s">'French American'</span><span class="p">,</span> <span class="s">'Barbecue'</span><span class="p">,</span> <span class="s">'Southwest'</span><span class="p">,</span> <span class="s">'Continental'</span><span class="p">,</span> <span class="s">'Vegetarian / Vegan'</span><span class="p">,</span> <span class="s">'Southern African'</span><span class="p">,</span> <span class="s">'Afternoon Tea'</span><span class="p">,</span> <span class="s">'Contemporary Mexican'</span><span class="p">,</span> <span class="s">'Latin / Spanish'</span><span class="p">,</span> <span class="s">'Dessert'</span><span class="p">,</span> <span class="s">'Grill'</span><span class="p">,</span> <span class="s">'Lebanese'</span><span class="p">,</span> <span class="s">'Korean'</span><span class="p">,</span> <span class="s">'Sicilian'</span><span class="p">,</span> <span class="s">'Peruvian'</span><span class="p">,</span> <span class="s">'Chinese (Canton)'</span><span class="p">,</span> <span class="s">'Fish'</span><span class="p">,</span> <span class="s">'Burgers'</span><span class="p">,</span> <span class="s">'Wild Game'</span><span class="p">,</span> <span class="s">'Mexican / Southwestern'</span><span class="p">,</span> <span class="s">'Contemporary Asian'</span><span class="p">,</span> <span class="s">'Vietnamese'</span><span class="p">,</span> <span class="s">'Traditional Mexican'</span><span class="p">,</span> <span class="s">'Breakfast'</span><span class="p">,</span> <span class="s">'Organic'</span><span class="p">,</span> <span class="s">'Regional Japanese'</span><span class="p">,</span> <span class="s">'Prime Rib'</span><span class="p">,</span> <span class="s">'Dim Sum'</span><span class="p">,</span> <span class="s">'Meat'</span><span class="p">,</span> <span class="s">'Contemporary Indian'</span><span class="p">,</span> <span class="s">'Winery'</span><span class="p">,</span> <span class="s">'Halal'</span><span class="p">,</span> <span class="s">'Pakistani'</span><span class="p">,</span> <span class="s">'Argentinean'</span><span class="p">,</span> <span class="s">'Greek'</span><span class="p">,</span> <span class="s">'Creative Japanese'</span><span class="p">,</span> <span class="s">'Teppanyaki'</span><span class="p">,</span> <span class="s">'Ecuadorian'</span><span class="p">,</span> <span class="s">'Cuban'</span><span class="p">,</span> <span class="s">'Soul food'</span><span class="p">,</span> <span class="s">'British'</span><span class="p">,</span> <span class="s">'Beer Garden'</span><span class="p">,</span> <span class="s">'Austrian'</span><span class="p">,</span> <span class="s">'German'</span><span class="p">,</span> <span class="s">'Rotisserie Chicken'</span><span class="p">,</span> <span class="s">'Ramen'</span><span class="p">,</span> <span class="s">'Regional Mexican'</span><span class="p">,</span> <span class="s">'Café'</span><span class="p">,</span> <span class="s">'Modern European'</span><span class="p">,</span> <span class="s">'Northern Mexican'</span><span class="p">,</span> <span class="s">'Thai'</span><span class="p">,</span> <span class="s">'English'</span><span class="p">,</span> <span class="s">'Fondue'</span><span class="p">]</span>
+</code></pre></div>
+<p><strong>Outputs</strong></p>
+
+<ul>
+<li>List of dictionaries with two key - value pairs; the first key is <code>&quot;key&quot;</code> and is mapped to a two element tuple: [main ingredient name, descriptor]. The second key is <code>&quot;value&quot;</code> and is mapped to a two element dictionary: <code>&quot;score&quot;</code> mapped to the item score of that ingredient and <code>&quot;n&quot;</code> mapped to the <code>confidence index</code> (how many times that ingredient has shown up in the input preferences).
+
+<ul>
+<li>See the code example on the right for an example.</li>
+</ul></li>
+</ul>
+<h2 id='search-results'>Search results</h2><h3 id='post-to-search'>POST to /search/</h3><div class="highlight"><pre class="highlight python tab-python"><code><span class="c1"># Search for chinese restaurants with delivery
+</span>
+<span class="c1"># utdl = result of previous call to /userprefgen/
+</span><span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="n">awsurl</span> <span class="o">+</span> <span class="s">'search/'</span><span class="p">,</span> <span class="n">json</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'search_string'</span><span class="p">:</span><span class="s">'chinese'</span><span class="p">,</span> <span class="c1"># breaks properly
+</span>    <span class="s">'submenus'</span><span class="p">:[</span><span class="s">'delivery'</span><span class="p">],</span> <span class="c1"># non required works
+</span>    <span class="s">'prefs'</span><span class="p">:</span><span class="n">utdl</span><span class="p">,</span> <span class="c1"># breaks properly
+</span>    <span class="s">'coords'</span><span class="p">:[</span><span class="mf">29.72154017</span><span class="p">,</span> <span class="o">-</span><span class="mf">95.39608383</span><span class="p">],</span> <span class="c1"># non required works
+</span>    <span class="s">'restrictions'</span><span class="p">:[],</span> <span class="c1"># non required works
+</span>    <span class="s">'prefdict'</span><span class="p">:</span> <span class="p">{</span><span class="s">'locscore'</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s">'rev_sum_score'</span><span class="p">:</span> <span class="mf">0.03</span><span class="p">,</span> <span class="s">'item_sum_score'</span><span class="p">:</span> <span class="mf">0.6</span><span class="p">}</span> 
+    <span class="p">})</span>
+<span class="n">newdict</span> <span class="o">=</span> <span class="n">ast</span><span class="p">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="s">'Infinity'</span><span class="p">,</span> <span class="s">'-1'</span><span class="p">).</span><span class="n">replace</span><span class="p">(</span><span class="s">'false'</span><span class="p">,</span> <span class="s">'False'</span><span class="p">).</span><span class="n">replace</span><span class="p">(</span><span class="s">'null'</span><span class="p">,</span><span class="s">'None'</span><span class="p">))</span>
+</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="dl">"</span><span class="s2">3841689</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span> <span class="c1">// hash of restaurant </span>
+    <span class="dl">"</span><span class="s2">items</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span> <span class="c1">// dictionary of items in the top n belonging to that restaurant </span>
+      <span class="dl">"</span><span class="s2">82051594</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span><span class="dl">"</span><span class="s2">score</span><span class="dl">"</span><span class="p">:</span> <span class="mf">0.3346763757962888</span><span class="p">,</span> <span class="dl">"</span><span class="s2">rev</span><span class="dl">"</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span> <span class="c1">// item hash is mapped to the score</span>
+      <span class="dl">"</span><span class="s2">21833507</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span><span class="dl">"</span><span class="s2">score</span><span class="dl">"</span><span class="p">:</span> <span class="mf">0.3191075257345033</span><span class="p">,</span> <span class="dl">"</span><span class="s2">rev</span><span class="dl">"</span><span class="p">:</span> <span class="mi">3</span><span class="p">},</span>
+      <span class="p">...</span>
+    <span class="p">},</span>
+    <span class="dl">"</span><span class="s2">item_sum_score</span><span class="dl">"</span><span class="p">:</span> <span class="mf">1.307567803061584</span><span class="p">,</span> <span class="c1">// sum of item scores for that restaurant</span>
+    <span class="dl">"</span><span class="s2">rev_sum_score</span><span class="dl">"</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="c1">// the sum of how the items were perceived in the reviews</span>
+    <span class="dl">"</span><span class="s2">loc</span><span class="dl">"</span><span class="p">:</span> <span class="mf">21.016145659571272</span><span class="p">,</span> <span class="c1">// how far away the restaurant is in miles</span>
+    <span class="dl">"</span><span class="s2">locscore</span><span class="dl">"</span><span class="p">:</span> <span class="mf">0.005</span> <span class="c1">// miles of location converted to a score</span>
+  <span class="p">},</span>
+  <span class="p">...</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="cm">/* All possible submenu filters */</span>
+<span class="nx">main</span><span class="p">,</span> <span class="nx">takeout</span><span class="p">,</span> <span class="nx">delivery</span><span class="p">,</span> <span class="nx">dessert</span><span class="p">,</span> <span class="nx">dinner</span><span class="p">,</span> <span class="nx">lunch</span><span class="p">,</span> <span class="nx">breakfast</span><span class="p">,</span> <span class="nx">pizza</span><span class="p">,</span> <span class="nx">sushi</span><span class="p">,</span> <span class="nx">appetizers</span><span class="p">,</span> <span class="nx">kids</span><span class="p">,</span> <span class="nx">brunch</span>
+</code></pre></div>
+<p>Takes a POST request containing a search query and other parameters. Returns a list of dictionaries representing the recommended restaurants and their basic information.</p>
+
+<p><strong>Inputs</strong></p>
+
+<ul>
+<li><code>prefs</code>: the output of the user preference endpoint, which is explained in detail in the <a href="#user-preference">user-preferences</a> endpoint in the &quot;results&quot; section. This is required.</li>
+<li>(Optional) <code>coords</code>: a two-length list of latitude and longitude coordinatres from the user&#39;s location. This is optional, and if not provided the <code>loc</code> and <code>locscore</code> fields will be empty. 
+
+<ul>
+<li>Example: <code>[29.72154017, -95.39608383]</code></li>
+</ul></li>
+<li>(Optional) <code>restrictions</code>: a list of restrictions the user selected. For now, only &#39;vegan&#39; and &#39;vegetarian&#39; are supported.
+
+<ul>
+<li>Example: <code>[&#39;vegan&#39;]</code>, <code>[]</code></li>
+</ul></li>
+<li>(Optional) <code>prefdict</code>: This is a three-length dictionary with keys <code>locscore</code>, <code>rev_sum_score</code>, and <code>item_sum_score</code>. Each of these keys are mapped to a float which represents the importance of location, review score, and item score respectively for the user.</li>
+<li>(Optional) <code>search_string</code>: Any string that the user inputs from the search bar. This is supposed to be either a cuisine, restaurant name, cluster name, or food name. This is optional, and if not provided the return will just be the highest rated items for the user.
+
+<ul>
+<li>Example: <code>chinese</code>, <code>burgers</code>, <code>chicken</code>, <code>pizza</code></li>
+</ul></li>
+<li>(Optional) <code>submenus</code>: a list of submenus that the user selects. Can be any combination of strings from the list of all possible submenus (see right). Should either be &#39;all&#39; or a list of other strings. &#39;all&#39; automatically includes all other submenus, so including other submenus with it is redundant. Adding delivery or takeout means only restaurants with delivery or takeout&#39;s menu items are considered.
+
+<ul>
+<li>Example: <code>[&#39;all&#39;]</code>, <code>[&#39;delivery&#39;, &#39;dinner&#39;]</code></li>
+</ul></li>
+</ul>
+
+<p><strong>Outputs</strong></p>
+
+<ul>
+<li>List of dictionaries where the restaurant hash is mapped to a dictionary of top items belonging to that restaurant
+
+<ul>
+<li>See the code example on the right for an example.</li>
+</ul></li>
+</ul>
+<h2 id='restaurant-menu'>Restaurant menu</h2><h3 id='post-to-rstget'>POST to /rstget/</h3><div class="highlight"><pre class="highlight python tab-python"><code><span class="c1"># Get recommended menu items for a restaurant 
+</span><span class="n">rhash</span> <span class="o">=</span> <span class="s">'0b7f3d99-13ce-4d45-955e-71902c4cb9a4'</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="n">awsurl</span> <span class="o">+</span> <span class="s">'rstget/'</span><span class="p">,</span> <span class="n">json</span> <span class="o">=</span> <span class="p">{</span><span class="s">'rhash'</span><span class="p">:</span><span class="n">rhash</span><span class="p">}),</span> <span class="s">'prefs'</span><span class="p">:</span><span class="n">utdl</span><span class="p">})</span> 
+<span class="n">newdict</span> <span class="o">=</span> <span class="n">ast</span><span class="p">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="s">'Infinity'</span><span class="p">,</span> <span class="s">'-1'</span><span class="p">).</span><span class="n">replace</span><span class="p">(</span><span class="s">'false'</span><span class="p">,</span> <span class="s">'False'</span><span class="p">).</span><span class="n">replace</span><span class="p">(</span><span class="s">'null'</span><span class="p">,</span><span class="s">'None'</span><span class="p">))</span>
+</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="dl">"</span><span class="s2">42d9f32b-f4d8-4723-b905-240dcd3324f2</span><span class="dl">"</span><span class="p">:</span>  <span class="c1">// hash of the item</span>
+        <span class="p">{</span><span class="dl">"</span><span class="s2">itemscores</span><span class="dl">"</span><span class="p">:</span> 
+            <span class="p">[</span> <span class="c1">// list of ingredients, each with a scores dict and the name and description. This structure is consistent for each ingredient, with the 'scores' key mapped to a dictionary of 'score' mapped to the item score, 'n' mapped to the confidence index, 'desc' mapped to the descriptor of that ingredient, and 'name' mapped to the name of that ingredient.</span>
+                <span class="p">{</span><span class="dl">"</span><span class="s2">scores</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span><span class="dl">"</span><span class="s2">score</span><span class="dl">"</span><span class="p">:</span> <span class="mf">0.829</span><span class="p">,</span> <span class="dl">"</span><span class="s2">n</span><span class="dl">"</span><span class="p">:</span> <span class="mi">3</span><span class="p">},</span> <span class="dl">"</span><span class="s2">desc</span><span class="dl">"</span><span class="p">:</span> <span class="dl">""</span><span class="p">,</span> <span class="dl">"</span><span class="s2">name</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">tomato</span><span class="dl">"</span><span class="p">},</span> 
+                <span class="p">{</span><span class="dl">"</span><span class="s2">scores</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span><span class="dl">"</span><span class="s2">score</span><span class="dl">"</span><span class="p">:</span> <span class="mf">0.738</span><span class="p">,</span> <span class="dl">"</span><span class="s2">n</span><span class="dl">"</span><span class="p">:</span> <span class="mi">3</span><span class="p">},</span> <span class="dl">"</span><span class="s2">desc</span><span class="dl">"</span><span class="p">:</span> <span class="dl">""</span><span class="p">,</span> <span class="dl">"</span><span class="s2">name</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">onion</span><span class="dl">"</span><span class="p">},</span>
+                <span class="p">...</span>
+            <span class="p">],</span>
+            <span class="dl">"</span><span class="s2">score</span><span class="dl">"</span><span class="p">:</span> <span class="mf">0.171969300975924</span><span class="p">,</span> <span class="c1">// score of the item's ingredients (float)</span>
+            <span class="dl">"</span><span class="s2">hash</span><span class="dl">"</span><span class="p">:</span> <span class="mi">4</span><span class="nx">e17ee65</span><span class="o">-</span><span class="nx">c3ad</span><span class="o">-</span><span class="mi">480</span><span class="nx">d</span><span class="o">-</span><span class="mi">8457</span><span class="o">-</span><span class="mi">1878</span><span class="nx">fc2c146f</span><span class="p">,</span> <span class="c1">// hash of the restaurant it belongs to (string)</span>
+            <span class="dl">"</span><span class="s2">submenu</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Lunch Menu</span><span class="dl">"</span><span class="p">,</span> <span class="c1">// submenu the item was found in (string)</span>
+            <span class="dl">"</span><span class="s2">submenufilter</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span><span class="dl">"</span><span class="s2">lunch</span><span class="dl">"</span><span class="p">],</span> <span class="c1">// submenu filter the item was found in (list of strings - constrained to items in all possible submenufilters</span>
+            <span class="dl">"</span><span class="s2">price</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">9.00</span><span class="dl">"</span><span class="p">,</span> <span class="c1">// price of the item (string of float)</span>
+            <span class="dl">"</span><span class="s2">rev</span><span class="dl">"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="c1">// accumulated score from the reviews (int))</span>
+        <span class="p">}</span>
+    <span class="p">...</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="cm">/* All possible submenu filters */</span>
+<span class="nx">main</span><span class="p">,</span> <span class="nx">takeout</span><span class="p">,</span> <span class="nx">delivery</span><span class="p">,</span> <span class="nx">dessert</span><span class="p">,</span> <span class="nx">dinner</span><span class="p">,</span> <span class="nx">lunch</span><span class="p">,</span> <span class="nx">breakfast</span><span class="p">,</span> <span class="nx">pizza</span><span class="p">,</span> <span class="nx">sushi</span><span class="p">,</span> <span class="nx">appetizers</span><span class="p">,</span> <span class="nx">kids</span><span class="p">,</span> <span class="nx">brunch</span>
+</code></pre></div>
+<p>Takes a POST request containing a restaurant hash and (optionally) user preferences. Returns a list of dictionaries representing the recommended menu items and their basic information.</p>
+
+<p><strong>Inputs</strong></p>
+
+<ul>
+<li><code>rhash</code>: A UUID of a restraunt in the database. Must be a string with no leading spaces.</li>
+<li>(Optional) <code>prefs</code>: the output of the user preference endpoint, which is explained in detail in the <a href="#user-preference">user-preferences</a> in the &quot;results&quot; section. This is optional, and if it is not provided the <code>itemscores</code> key in the results dictionary will map to an empty list. </li>
+</ul>
+
+<p><strong>Outputs</strong></p>
+
+<ul>
+<li>See the code example on the right for an example and description.</li>
 </ul>
 <h1 id='models'>Models</h1><h2 id='category'>Category</h2>
 <table><thead>
