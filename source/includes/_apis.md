@@ -199,7 +199,7 @@ To obtain a specific category, send a get request to this endpoint with an acces
 
 ## Update a specific category
 
-### PUT to /category/category_id/
+### PATCH to /category/category_id/
 ```python
 headers = {'Authorization': 'Bearer insert_access_token_here'} # Must be admin user token
 
@@ -209,7 +209,7 @@ print(response.text)
 ```
 >{'result': {"_id": {"$oid": "category_id"}, "description": "category description update", "items": [], "tags":[], "name":"category_name"}}
 
-To update a specific category, send a put request to this endpoint with an **admin** access token in the header and category id in the URL, and the updated category fields in the body.
+To update a specific category, send a patch request to this endpoint with an **admin** access token in the header and category id in the URL, and the updated category fields in the body.
 
 ## Delete a specific category
 
@@ -235,7 +235,7 @@ To the `\item\` endpoint, we support:
 To the `\item\item_id\` endpoint, we support:
 
 * GET request (with a valid access token in the header), which returns the specific item with `item_id` in the database.
-* PUT request (with an **admin** access token in the header), which updates the item with `item_id` in the database with the request's body contents.
+* PATCH request (with an **admin** access token in the header), which updates the item with `item_id` in the database with the request's body contents.
 * DELETE request (with an **admin** access token in the header), which deletes the item with `item_id` in the database.
 
 # Restaurant API
@@ -249,7 +249,7 @@ To the `\restaurant\` endpoint, we support:
 To the `\restaurant\restaurant_id\` endpoint, we support:
 
 * GET request (with a valid access token in the header), which returns the specific restaurant with `restaurant_id` in the database.
-* PUT request (with an **admin** access token in the header), which updates the restaurant with `restaurant_id` in the database with the request's body contents.
+* PATCH request (with an **admin** access token in the header), which updates the restaurant with `restaurant_id` in the database with the request's body contents.
 * DELETE request (with an **admin** access token in the header), which deletes the restaurant with `restaurant_id` in the database.
 
 # Review API
@@ -263,7 +263,7 @@ To the `\review\` endpoint, we support:
 To the `\review\review_id\` endpoint, we support:
 
 * GET request (with a valid access token in the header), which returns the specific review with `review_id` in the database.
-* PUT request (with an **admin** access token in the header), which updates the review with `review_id` in the database with the request's body contents.
+* PATCH request (with an **admin** access token in the header), which updates the review with `review_id` in the database with the request's body contents.
 * DELETE request (with an **admin** access token in the header), which deletes the review with `review_id` in the database.
 
 
@@ -278,6 +278,6 @@ To the `\user\` endpoint, we support:
 To the `\user\user_id\` endpoint, we support:
 
 * GET request (with a valid access token in the header), which returns the specific user with `user_id` in the database.
-* PUT request (with an **admin** access token in the header), which updates the user with `user_id` in the database with the request's body contents.
+* PATCH request (with an **admin** access token in the header), which updates the user with `user_id` in the database with the request's body contents.
 * DELETE request (with an **admin** access token in the header), which deletes the user with `user_id` in the database.
 

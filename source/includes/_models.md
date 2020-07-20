@@ -13,8 +13,8 @@ items | `ListField(ReferenceField(Item))` | Array of ObjectID | array of referen
 
 Field Name | Code | Type | Description | Required
 ---------- | ---- | ---- | ----------- | --------
-_id | `StringField(primary_key=True, required=True)` | String | MongoDB Primary Key hash, must be length 36 alphanumeric| **Required**
-location | `ReferenceField('Restaurant', required=True)` | ObjectID | reference to `Restaurant` model. | **Required**
+_id | `StringField(primary_key=True, required=True)` | String of length 36 | MongoDB Primary Key hash, must be length 36 alphanumeric| **Required**
+location | `StringField(required=True)` | String of length 36 | reference to `Restaurant` model. | **Required**
 name | `StringField(required=True)` | String | name of menu item. |**Required**
 desc | `StringField()` | String | description of menu item. |
 price | `FloatField(required=True)` | Float | price of menu item. |**Required**
@@ -36,7 +36,7 @@ dollarsigncount | `IntField()` | Integer | dollar sign indicating price of resta
 cuisine | `StringField()` | String | type of cuisine |
 revcount | `IntField()` | Integer |  |
 loc | `StringField()` | String | restaurant address |
-menudict | `ListField(ReferenceField(Item))` | Array of ObjectID | object ids of menu item that the restaurant serves |
+menudict | `ListField(StringField())` | Array of String (length 36) | object ids of menu item that the restaurant serves |
 
 ### Attributes model
 
@@ -57,7 +57,7 @@ website | `StringField()` | String | restaurant website link |
 
 Field Name | Code | Type | Description | Required
 ---------- | ---- | ---- | ----------- | --------
-location | `ReferenceField('Restaurant', required=True)` | ObjectID | MongoDb object id of restaurant model | **Required**
+location | `StringField(required=True)` | String of length 36| MongoDb object id of restaurant model | **Required**
 name | `StringField(required=True)` | String | reviewer name | **Required**
 city | `StringField(required=True)` | String | city location name | **Required**
 overallrating | `IntField()` | Integer | overall rating for this review |
@@ -106,7 +106,7 @@ processed_prefs | `ListField()` | Array of String | cached preferences after bei
 Field Name | Code | Type | Description | Required
 ---------- | ---- | ---- | ----------- | --------
 created_on | `DateTimeField(default = datetime.now)` | DateTime field | indicates when this account was generated |
-fav_restaurant | `ReferenceField(Restaurant)` | Object ID | reference to restaurant model |
+fav_restaurant | `StringField()` | String of length 36| reference to restaurant model |
 
 
 ### Access model

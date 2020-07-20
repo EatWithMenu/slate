@@ -67,9 +67,9 @@ Takes a POST request optionally containing a cuisine preferences dictionary and/
 
 **Inputs**
 
-* (Optional) `prefcu`: a dictionary of cuisine names mapped to the score for that cuisine, which is a boundless integer, although this would work best with the score contained between -10 and 10. If any cuisine name is incorrect, that will be output in `log.txt`. All possible cuisines are listed on the right.
+* (Should be Optional, but required for now) `prefcu`: a dictionary of cuisine names mapped to the score for that cuisine, which is a boundless integer, although this would work best with the score contained between -10 and 10. If any cuisine name is incorrect, that will be output in `log.txt`. All possible cuisines are listed on the right.
     * Example: `{'Sushi': 10, 'Asian': 6, 'Latin American': 10}`
-* (Optional) `prefcl`: shows the user preference for each of the 54 clusters. The input dictionary is in the form of the string index of the cluster mapped to the integer score associated to that cluster. The keys can be any integer \[0, 54\] but 54 is kind of a useless cluster so it shouldn't be used as a key. The values can be any integer but should be constrained to \[-10, 10\] for best results. If an invalid key is provided, then it will be ignored and spit out in `log.txt`
+* (Should be Optional, but required for now) `prefcl`: shows the user preference for each of the 54 clusters. The input dictionary is in the form of the string index of the cluster mapped to the integer score associated to that cluster. The keys can be any integer \[0, 54\] but 54 is kind of a useless cluster so it shouldn't be used as a key. The values can be any integer but should be constrained to \[-10, 10\] for best results. If an invalid key is provided, then it will be ignored and spit out in `log.txt`
     * Example: `{'0': 1, '2': 2, '3': 3, '6':2}`
 
 ```python
