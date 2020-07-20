@@ -85,7 +85,7 @@ Field Name | Code | Type | Description | Required
 username | `StringField(required=True)` | String | first and last name of user | **Required**
 password | `BinaryField(required=True)` | Binary | encrypted account password | **Required**
 email | `EmailField(required=True, unique=True)` | Email field | account email | **Required**
-access | `EmbeddedDocumentField(Access, required=True)` | Access model | refer to `Access` model | **Required**
+access | `EmbeddedDocumentField(Access, required=True)` | Access model | refer to `Access` model |
 phone | `PhoneField()` | Phone field | account phone number |
 
 ### - Restrictions
@@ -113,5 +113,8 @@ fav_restaurant | `StringField()` | String of length 36| reference to restaurant 
 
 Field Name | Code | Type | Description | Required
 ---------- | ---- | ---- | ----------- | --------
-user | `BooleanField(default=True)` | Boolean | is this account "user" level? |
+user | `BooleanField(default=False)` | Boolean | is this account "user" level? |
 admin | `BooleanField(default=False)` | Boolean | is this account "admin" level? |
+googlelogin | `BooleanField(default=False)` | Boolean | is this account "googlelogin" level? |
+facebooklogin | `BooleanField(default=False)` | Boolean | is this account "facebooklogin" level? |
+guest | `BooleanField(default=False)` | Boolean | is this account "guest" level? |

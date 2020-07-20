@@ -31,3 +31,4 @@ Error Id | Name of Error | Error message | Status Code
 11 | `validation_error` | Marshmallow validation has failed | 400
 12 | `mongodb_get_object_error` | MongoDB document get request has failed | 500
 13 | `all_other_error` | This error message corresponds to all other errors | 500
+14 | `wrong_login_route` | You cannot attempt login to `/auth/login/` without `user` access field being True | 401
