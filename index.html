@@ -1248,7 +1248,7 @@ To the <code>\user\</code> endpoint, we support:</p>
 <td><code>EmbeddedDocumentField(Access, required=True)</code></td>
 <td>Access model</td>
 <td>refer to <code>Access</code> model</td>
-<td><strong>Required</strong></td>
+<td></td>
 </tr>
 <tr>
 <td>phone</td>
@@ -1338,7 +1338,7 @@ To the <code>\user\</code> endpoint, we support:</p>
 </thead><tbody>
 <tr>
 <td>user</td>
-<td><code>BooleanField(default=True)</code></td>
+<td><code>BooleanField(default=False)</code></td>
 <td>Boolean</td>
 <td>is this account &quot;user&quot; level?</td>
 <td></td>
@@ -1348,6 +1348,27 @@ To the <code>\user\</code> endpoint, we support:</p>
 <td><code>BooleanField(default=False)</code></td>
 <td>Boolean</td>
 <td>is this account &quot;admin&quot; level?</td>
+<td></td>
+</tr>
+<tr>
+<td>googlelogin</td>
+<td><code>BooleanField(default=False)</code></td>
+<td>Boolean</td>
+<td>is this account &quot;googlelogin&quot; level?</td>
+<td></td>
+</tr>
+<tr>
+<td>facebooklogin</td>
+<td><code>BooleanField(default=False)</code></td>
+<td>Boolean</td>
+<td>is this account &quot;facebooklogin&quot; level?</td>
+<td></td>
+</tr>
+<tr>
+<td>guest</td>
+<td><code>BooleanField(default=False)</code></td>
+<td>Boolean</td>
+<td>is this account &quot;guest&quot; level?</td>
 <td></td>
 </tr>
 </tbody></table>
@@ -1473,6 +1494,12 @@ To the <code>\user\</code> endpoint, we support:</p>
 <td><code>all_other_error</code></td>
 <td>This error message corresponds to all other errors</td>
 <td>500</td>
+</tr>
+<tr>
+<td>14</td>
+<td><code>wrong_login_route</code></td>
+<td>You cannot attempt login to <code>/auth/login/</code> without <code>user</code> access field being True</td>
+<td>401</td>
 </tr>
 </tbody></table>
 
