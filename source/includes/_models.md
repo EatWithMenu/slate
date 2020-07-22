@@ -85,7 +85,7 @@ Field Name | Code | Type | Description | Required
 username | `StringField(required=True)` | String | first and last name of user | **Required**
 password | `BinaryField(required=True)` | Binary | encrypted account password | **Required**
 email | `EmailField(required=True, unique=True)` | Email field | account email | **Required**
-access | `EmbeddedDocumentField(Access, required=True)` | Access model | refer to `Access` model |
+access | `EmbeddedDocumentField(Access)` | Access model | refer to `Access` model |
 phone | `PhoneField()` | Phone field | account phone number |
 
 ### - Restrictions
@@ -98,7 +98,7 @@ restrictions | `ListField()` | Array of String | list of restrictions |
 
 Field Name | Code | Type | Description | Required
 ---------- | ---- | ---- | ----------- | --------
-preferences | `DictField()` | Dictionary (key = string, value = integer) | key-value pair of user preferences | 
+preferences | `DictField(default = {})` | Dictionary (key = string, value = integer) | key-value pair of user preferences | 
 processed_prefs | `ListField()` | Array of String | cached preferences after being processed by dsci |
 
 ### - Other

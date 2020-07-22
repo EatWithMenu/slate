@@ -159,7 +159,7 @@ Analagous post requests can be sent to the `/query/item/` endpoint to query the 
 
 ## Get all categories
 
-### GET to /category/
+### GET to /categories/
 ```python
 headers = {'Authorization': 'Bearer insert_access_token_here'}
 
@@ -172,7 +172,7 @@ To obtain all the categories in the database, send a get request to this endpoin
 
 ## Add a categories
 
-### POST to /category/
+### POST to /categories/
 ```python
 headers = {'Authorization': 'Bearer insert_access_token_here'}
 
@@ -186,7 +186,7 @@ To add a category to the database, send a post request to this endpoint with the
 
 ## Get a specific category
 
-### GET to /category/category_id/
+### GET to /category/<category_id>/
 ```python
 headers = {'Authorization': 'Bearer insert_access_token_here'}
 
@@ -199,7 +199,7 @@ To obtain a specific category, send a get request to this endpoint with an acces
 
 ## Update a specific category
 
-### PATCH to /category/category_id/
+### PATCH to /<category/category_id>/
 ```python
 headers = {'Authorization': 'Bearer insert_access_token_here'} # Must be admin user token
 
@@ -213,7 +213,7 @@ To update a specific category, send a patch request to this endpoint with an **a
 
 ## Delete a specific category
 
-### DELETE to /category/category_id/
+### DELETE to /category/<category_id>/
 ```python
 headers = {'Authorization': 'Bearer insert_access_token_here'} # Must be admin user token
 
@@ -227,12 +227,12 @@ To delete a specific category, send a delete request to this endpoint with an **
 # Menu Item API
 
 The Item API provides basic CRUD functionality which is very similar to the other CRUD APIs in our system.
-To the `\item\` endpoint, we support:
+To the `\items\` endpoint, we support:
 
 * GET request (with a valid access token in the header), which returns all items in the database.
 * POST request (with an **admin** access token in the header), which allows creation of a new menu item on the database, where the POST body contains all the requireds fields of the [menu item](#menu-item) model.
 
-To the `\item\item_id\` endpoint, we support:
+To the `\item\<item_id>\` endpoint, we support:
 
 * GET request (with a valid access token in the header), which returns the specific item with `item_id` in the database.
 * PATCH request (with an **admin** access token in the header), which updates the item with `item_id` in the database with the request's body contents.
@@ -241,12 +241,12 @@ To the `\item\item_id\` endpoint, we support:
 # Restaurant API
 
 The Restaurant API provides basic CRUD functionality which is very similar to the other CRUD APIs in our system.
-To the `\restaurant\` endpoint, we support:
+To the `\restaurants\` endpoint, we support:
 
 * GET request (with a valid access token in the header), which returns all restaurants in the database.
 * POST request (with an **admin** access token in the header), which allows creation of a new restaurant on the database, where the POST body contains all the requireds fields of the [restaurant](#restaurant) model.
 
-To the `\restaurant\restaurant_id\` endpoint, we support:
+To the `\restaurant\<restaurant_id>\` endpoint, we support:
 
 * GET request (with a valid access token in the header), which returns the specific restaurant with `restaurant_id` in the database.
 * PATCH request (with an **admin** access token in the header), which updates the restaurant with `restaurant_id` in the database with the request's body contents.
@@ -255,12 +255,12 @@ To the `\restaurant\restaurant_id\` endpoint, we support:
 # Review API
 
 The Review API provides basic CRUD functionality which is very similar to the other CRUD APIs in our system.
-To the `\review\` endpoint, we support:
+To the `\reviews\` endpoint, we support:
 
 * GET request (with a valid access token in the header), which returns all reviews in the database.
 * POST request (with an **admin** access token in the header), which allows creation of a new review on the database, where the POST body contains all the requireds fields of the [review](#review) model.
 
-To the `\review\review_id\` endpoint, we support:
+To the `\review\<review_id>\` endpoint, we support:
 
 * GET request (with a valid access token in the header), which returns the specific review with `review_id` in the database.
 * PATCH request (with an **admin** access token in the header), which updates the review with `review_id` in the database with the request's body contents.
@@ -270,14 +270,14 @@ To the `\review\review_id\` endpoint, we support:
 # User API
 
 The User API provides basic CRUD functionality which is very similar to the other CRUD APIs in our system.
-To the `\user\` endpoint, we support:
+To the `\users\` endpoint, we support:
 
-* GET request (with a valid access token in the header), which returns all users in the database.
+* GET request (with an **admin** access token in the header), which returns all users in the database.
 * POST request (with an **admin** access token in the header), which allows creation of a new user on the database, where the POST body contains all the requireds fields of the [user](#user) model.
 
-To the `\user\user_id\` endpoint, we support:
+To the `\user\<user_id>\` endpoint, we support:
 
-* GET request (with a valid access token in the header), which returns the specific user with `user_id` in the database.
+* GET request (with an **admin** access token in the header, or with the jwt id of access token matching with `<user_id>` in the request param), which returns the specific user with `user_id` in the database.
 * PATCH request (with an **admin** access token in the header), which updates the user with `user_id` in the database with the request's body contents.
 * DELETE request (with an **admin** access token in the header), which deletes the user with `user_id` in the database.
 
