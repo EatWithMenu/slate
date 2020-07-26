@@ -588,7 +588,7 @@
 </blockquote>
 
 <p>To add a category to the database, send a post request to this endpoint with the access token <strong>from a user with admin priviledges</strong> (admin = true in the access field of the <a href="#user">user</a> model). If added successfully, returns the category id.</p>
-<h2 id='get-a-specific-category'>Get a specific category</h2><h3 id='get-to-category'>GET to /category/<category_id>/</h3><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">'Authorization'</span><span class="p">:</span> <span class="s">'Bearer insert_access_token_here'</span><span class="p">}</span>
+<h2 id='get-a-specific-category'>Get a specific category</h2><h3 id='get-to-category-lt-category_id-gt'>GET to <code>/category/&lt;category_id&gt;/</code></h3><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">'Authorization'</span><span class="p">:</span> <span class="s">'Bearer insert_access_token_here'</span><span class="p">}</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">"https://www.menubackend.com/category/"</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span> 
 <span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
@@ -598,7 +598,7 @@
 </blockquote>
 
 <p>To obtain a specific category, send a get request to this endpoint with an access token in the header and category id in the URL.</p>
-<h2 id='update-a-specific-category'>Update a specific category</h2><h3 id='patch-to'>PATCH to /<category/category_id>/</h3><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">'Authorization'</span><span class="p">:</span> <span class="s">'Bearer insert_access_token_here'</span><span class="p">}</span> <span class="c1"># Must be admin user token
+<h2 id='update-a-specific-category'>Update a specific category</h2><h3 id='patch-to-category-lt-category_id-gt'>PATCH to <code>/category/&lt;category_id&gt;/</code></h3><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">'Authorization'</span><span class="p">:</span> <span class="s">'Bearer insert_access_token_here'</span><span class="p">}</span> <span class="c1"># Must be admin user token
 </span>
 <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s">"description"</span><span class="p">:</span> <span class="s">"category description update"</span><span class="p">}</span>
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">"https://www.menubackend.com/category/category_id"</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">)</span> 
@@ -609,7 +609,7 @@
 </blockquote>
 
 <p>To update a specific category, send a patch request to this endpoint with an <strong>admin</strong> access token in the header and category id in the URL, and the updated category fields in the body.</p>
-<h2 id='delete-a-specific-category'>Delete a specific category</h2><h3 id='delete-to-category'>DELETE to /category/<category_id>/</h3><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">'Authorization'</span><span class="p">:</span> <span class="s">'Bearer insert_access_token_here'</span><span class="p">}</span> <span class="c1"># Must be admin user token
+<h2 id='delete-a-specific-category'>Delete a specific category</h2><h3 id='delete-to-category-lt-category_id-gt'>DELETE to <code>/category/&lt;category_id&gt;/</code></h3><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">'Authorization'</span><span class="p">:</span> <span class="s">'Bearer insert_access_token_here'</span><span class="p">}</span> <span class="c1"># Must be admin user token
 </span>
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">delete</span><span class="p">(</span><span class="s">"https://www.menubackend.com/category/category_id"</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span> 
 <span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
@@ -1295,7 +1295,7 @@ To the <code>\users\</code> endpoint, we support:</p>
 </tr>
 <tr>
 <td>processed_prefs</td>
-<td><code>ListField()</code></td>
+<td><code>DynamicField()</code></td>
 <td>Array of String</td>
 <td>cached preferences after being processed by dsci</td>
 <td></td>
