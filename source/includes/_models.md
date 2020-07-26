@@ -99,7 +99,7 @@ restrictions | `ListField()` | Array of String | list of restrictions |
 Field Name | Code | Type | Description | Required
 ---------- | ---- | ---- | ----------- | --------
 preferences | `DictField(default = {})` | Dictionary (key = string, value = integer) | key-value pair of user preferences | 
-processed_prefs | `ListField()` | Array of String | cached preferences after being processed by dsci |
+processed_prefs | `DynamicField()` | Array of String | cached preferences after being processed by dsci |
 
 ### - Other
 

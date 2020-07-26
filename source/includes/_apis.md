@@ -186,7 +186,7 @@ To add a category to the database, send a post request to this endpoint with the
 
 ## Get a specific category
 
-### GET to /category/<category_id>/
+### GET to `/category/<category_id>/`
 ```python
 headers = {'Authorization': 'Bearer insert_access_token_here'}
 
@@ -199,7 +199,7 @@ To obtain a specific category, send a get request to this endpoint with an acces
 
 ## Update a specific category
 
-### PATCH to /<category/category_id>/
+### PATCH to `/category/<category_id>/`
 ```python
 headers = {'Authorization': 'Bearer insert_access_token_here'} # Must be admin user token
 
@@ -213,7 +213,7 @@ To update a specific category, send a patch request to this endpoint with an **a
 
 ## Delete a specific category
 
-### DELETE to /category/<category_id>/
+### DELETE to `/category/<category_id>/`
 ```python
 headers = {'Authorization': 'Bearer insert_access_token_here'} # Must be admin user token
 
