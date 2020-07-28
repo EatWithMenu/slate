@@ -57,13 +57,13 @@ response = requests.post(awsurl + 'usrprefgen/', json = {'prefscu':prefdict, 'pr
 utdl = ast.literal_eval(response.text.replace('Infinity', '-1').replace('false', 'False').replace('null','None'))
 ```
 >[
-    {'key': ['piece', 'succulent'], 'value': {'score': 0.0039, 'n': 1.0}},
-    {'key': ['mole', 'annie'], 'value': {'score': 0.0039, 'n': 1.0}},
-    {'key': ['crawfish', 'étouffée'], 'value': {'score': 0.0039, 'n': 1.0}},
-    {'key': ['pickle', 'lodge'], 'value': {'score': 0.0039, 'n': 1.0}}
+    [['piece', 'succulent'], 0.0039, 1.0],
+    [['mole', 'annie'], 0.0039, 1.0],
+    [['crawfish', 'étouffée'], 0.0039, 1.0],
+    [['pickle', 'lodge'], 0.0039, 1.0]
 ]
 
-Takes a POST request optionally containing a cuisine preferences dictionary and/or a cluster preferences dictionary. Returns a list of dictionaries representing the user's preferences.
+Takes a POST request optionally containing a cuisine preferences dictionary and/or a cluster preferences dictionary. Returns a list of lists representing the user's preferences.
 
 **Inputs**
 
@@ -82,7 +82,7 @@ mfc.cuisine_list()[1]
 
 **Outputs**
 
-* List of dictionaries with two key - value pairs; the first key is `"key"` and is mapped to a two element tuple: \[main ingredient name, descriptor\]. The second key is `"value"` and is mapped to a two element dictionary: `"score"` mapped to the item score of that ingredient and `"n"` mapped to the `confidence index` \(how many times that ingredient has shown up in the input preferences\).
+* List of lists with three items - the first being a 2-length list of `main ingredient name` and `descriptor`, and the second being the float `item score` of that ingredient and the third the integer `confidence index`, or how many times that ingredient has shown up in the input preferences.
     * See the code example on the right for an example.
 
 
@@ -100,7 +100,8 @@ response = requests.post(awsurl + 'search/', json = {
     'prefs':utdl, # breaks properly
     'coords':[29.72154017, -95.39608383], # non required works
     'restrictions':[], # non required works
-    'prefdict': {'locscore': 2, 'rev_sum_score': 0.03, 'item_sum_score': 0.6} 
+    'prefdict': {'locscore': 2, 'rev_sum_score': 0.03, 'item_sum_score': 0.6},
+    'page': 1
     })
 newdict = ast.literal_eval(response.text.replace('Infinity', '-1').replace('false', 'False').replace('null','None'))
 ```
@@ -130,6 +131,8 @@ Takes a POST request containing a search query and other parameters. Returns a l
 **Inputs**
 
 * `prefs`: the output of the user preference endpoint, which is explained in detail in the [user-preferences](#user-preference) endpoint in the "results" section. This is required.
+* `page`: An integer to represent which page the user has clicked on. The first page is page 0. This is required.
+    * Example: `0`, `1`, `2`, `3`...
 * (Optional) `coords`: a two-length list of latitude and longitude coordinatres from the user's location. This is optional, and if not provided the `loc` and `locscore` fields will be empty. 
     * Example: `[29.72154017, -95.39608383]`
 * (Optional) `restrictions`: a list of restrictions the user selected. For now, only 'vegan' and 'vegetarian' are supported.
