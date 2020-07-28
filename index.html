@@ -737,14 +737,14 @@ To the <code>\users\</code> endpoint, we support:</p>
 </code></pre></div>
 <blockquote>
 <p>[
-    {&#39;key&#39;: [&#39;piece&#39;, &#39;succulent&#39;], &#39;value&#39;: {&#39;score&#39;: 0.0039, &#39;n&#39;: 1.0}},
-    {&#39;key&#39;: [&#39;mole&#39;, &#39;annie&#39;], &#39;value&#39;: {&#39;score&#39;: 0.0039, &#39;n&#39;: 1.0}},
-    {&#39;key&#39;: [&#39;crawfish&#39;, &#39;étouffée&#39;], &#39;value&#39;: {&#39;score&#39;: 0.0039, &#39;n&#39;: 1.0}},
-    {&#39;key&#39;: [&#39;pickle&#39;, &#39;lodge&#39;], &#39;value&#39;: {&#39;score&#39;: 0.0039, &#39;n&#39;: 1.0}}
+    [[&#39;piece&#39;, &#39;succulent&#39;], 0.0039, 1.0],
+    [[&#39;mole&#39;, &#39;annie&#39;], 0.0039, 1.0],
+    [[&#39;crawfish&#39;, &#39;étouffée&#39;], 0.0039, 1.0],
+    [[&#39;pickle&#39;, &#39;lodge&#39;], 0.0039, 1.0]
 ]</p>
 </blockquote>
 
-<p>Takes a POST request optionally containing a cuisine preferences dictionary and/or a cluster preferences dictionary. Returns a list of dictionaries representing the user&#39;s preferences.</p>
+<p>Takes a POST request optionally containing a cuisine preferences dictionary and/or a cluster preferences dictionary. Returns a list of lists representing the user&#39;s preferences.</p>
 
 <p><strong>Inputs</strong></p>
 
@@ -769,7 +769,7 @@ To the <code>\users\</code> endpoint, we support:</p>
 <p><strong>Outputs</strong></p>
 
 <ul>
-<li>List of dictionaries with two key - value pairs; the first key is <code>&quot;key&quot;</code> and is mapped to a two element tuple: [main ingredient name, descriptor]. The second key is <code>&quot;value&quot;</code> and is mapped to a two element dictionary: <code>&quot;score&quot;</code> mapped to the item score of that ingredient and <code>&quot;n&quot;</code> mapped to the <code>confidence index</code> (how many times that ingredient has shown up in the input preferences).
+<li>List of lists with three items - the first being a 2-length list of <code>main ingredient name</code> and <code>descriptor</code>, and the second being the float <code>item score</code> of that ingredient and the third the integer <code>confidence index</code>, or how many times that ingredient has shown up in the input preferences.
 
 <ul>
 <li>See the code example on the right for an example.</li>
@@ -784,7 +784,8 @@ To the <code>\users\</code> endpoint, we support:</p>
 </span>    <span class="s">'prefs'</span><span class="p">:</span><span class="n">utdl</span><span class="p">,</span> <span class="c1"># breaks properly
 </span>    <span class="s">'coords'</span><span class="p">:[</span><span class="mf">29.72154017</span><span class="p">,</span> <span class="o">-</span><span class="mf">95.39608383</span><span class="p">],</span> <span class="c1"># non required works
 </span>    <span class="s">'restrictions'</span><span class="p">:[],</span> <span class="c1"># non required works
-</span>    <span class="s">'prefdict'</span><span class="p">:</span> <span class="p">{</span><span class="s">'locscore'</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s">'rev_sum_score'</span><span class="p">:</span> <span class="mf">0.03</span><span class="p">,</span> <span class="s">'item_sum_score'</span><span class="p">:</span> <span class="mf">0.6</span><span class="p">}</span> 
+</span>    <span class="s">'prefdict'</span><span class="p">:</span> <span class="p">{</span><span class="s">'locscore'</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s">'rev_sum_score'</span><span class="p">:</span> <span class="mf">0.03</span><span class="p">,</span> <span class="s">'item_sum_score'</span><span class="p">:</span> <span class="mf">0.6</span><span class="p">},</span>
+    <span class="s">'page'</span><span class="p">:</span> <span class="mi">1</span>
     <span class="p">})</span>
 <span class="n">newdict</span> <span class="o">=</span> <span class="n">ast</span><span class="p">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="s">'Infinity'</span><span class="p">,</span> <span class="s">'-1'</span><span class="p">).</span><span class="n">replace</span><span class="p">(</span><span class="s">'false'</span><span class="p">,</span> <span class="s">'False'</span><span class="p">).</span><span class="n">replace</span><span class="p">(</span><span class="s">'null'</span><span class="p">,</span><span class="s">'None'</span><span class="p">))</span>
 </code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
@@ -810,6 +811,11 @@ To the <code>\users\</code> endpoint, we support:</p>
 
 <ul>
 <li><code>prefs</code>: the output of the user preference endpoint, which is explained in detail in the <a href="#user-preference">user-preferences</a> endpoint in the &quot;results&quot; section. This is required.</li>
+<li><code>page</code>: An integer to represent which page the user has clicked on. The first page is page 0. This is required.
+
+<ul>
+<li>Example: <code>0</code>, <code>1</code>, <code>2</code>, <code>3</code>...</li>
+</ul></li>
 <li>(Optional) <code>coords</code>: a two-length list of latitude and longitude coordinatres from the user&#39;s location. This is optional, and if not provided the <code>loc</code> and <code>locscore</code> fields will be empty. 
 
 <ul>
