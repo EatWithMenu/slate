@@ -667,6 +667,18 @@ To the <code>\reviews\</code> endpoint, we support:</p>
 <li>PATCH request (with an <strong>admin</strong> access token in the header), which updates the review with <code>review_id</code> in the database with the request&#39;s body contents.</li>
 <li>DELETE request (with an <strong>admin</strong> access token in the header), which deletes the review with <code>review_id</code> in the database.</li>
 </ul>
+
+<p>To the <code>\review\&lt;restaurant_id&gt;\</code> endpoint, we support:</p>
+
+<ul>
+<li>GET request (with a valid access token in the header), which returns all reviews associated with <code>restaurant_id</code> in the database</li>
+</ul>
+
+<p>To the <code>\review\&lt;restaurant_id&gt;\&lt;max_number_of_reviews&gt;\</code> endpoint, we support:</p>
+
+<ul>
+<li>GET request (with a valid access token in the header), which returns maximum of max_number_of_reviews number of reviews associated with the restaurant. You do not have to worry whether the number you request exceeds the actual number of reviews present. For instance, if you request 1000 reviews for a restaurant that currently has 600 reviews, this endpoint will return 600 reviews present.</li>
+</ul>
 <h1 id='user-api'>User API</h1>
 <p>The User API provides basic CRUD functionality which is very similar to the other CRUD APIs in our system.
 To the <code>\users\</code> endpoint, we support:</p>
@@ -680,7 +692,8 @@ To the <code>\users\</code> endpoint, we support:</p>
 
 <ul>
 <li>GET request (with an <strong>admin</strong> access token in the header, or with the jwt id of access token matching with <code>&lt;user_id&gt;</code> in the request param), which returns the specific user with <code>user_id</code> in the database.</li>
-<li>PATCH request (with an <strong>admin</strong> access token in the header), which updates the user with <code>user_id</code> in the database with the request&#39;s body contents.</li>
+<li>PATCH request (with an <strong>admin</strong> access token in the header), which updates the user with <code>user_id</code> in the database with the request&#39;s body contents. Frontend can send us <code>cluster_group_prefs</code> dictionary in the body json. For instance, <code>{&quot;Desserts&quot; : 3, &quot;Bar&quot;: 7&quot;}</code> (case insensitive string keys). PATCH request will internally map &quot;Desserts&quot; and &quot;Bar&quot; to corresponding cluster label number and store <code>{&quot;2&quot; : 3, &quot;22&quot;: 3, &quot;35&quot;: 3, &quot;27&quot;: 7, &quot;30&quot;: 7, &quot;32&quot;: 7}</code> , since &quot;Desserts&quot; has three label numbers: 2, 22, 35, and &quot;Bar&quot; has three label numbers: 27, 30, 32.
+After this conversion, backend endpoint calls the DSCI usrprefgen/ POST request to update the user preferences.</li>
 <li>DELETE request (with an <strong>admin</strong> access token in the header), which deletes the user with <code>user_id</code> in the database.</li>
 </ul>
 <h1 id='dsci-api'>DSCI API</h1>
@@ -1297,6 +1310,13 @@ To the <code>\users\</code> endpoint, we support:</p>
 <td><code>DictField(default = {})</code></td>
 <td>Dictionary (key = string, value = integer)</td>
 <td>key-value pair of user preferences</td>
+<td></td>
+</tr>
+<tr>
+<td>cluster_group_prefs</td>
+<td><code>DictField(default = {})</code></td>
+<td>Dictionary (key = string, value = integer)</td>
+<td>key-value pair of cluster_group_prefs (https://docs.google.com/spreadsheets/d/108FCNhgjhSnSmJ-OyNcjUzSwVw2f7l6cF6dU--GoR9M/edit#gid=0)</td>
 <td></td>
 </tr>
 <tr>
