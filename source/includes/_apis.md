@@ -266,6 +266,14 @@ To the `\review\<review_id>\` endpoint, we support:
 * PATCH request (with an **admin** access token in the header), which updates the review with `review_id` in the database with the request's body contents.
 * DELETE request (with an **admin** access token in the header), which deletes the review with `review_id` in the database.
 
+To the `\review\<restaurant_id>\` endpoint, we support:
+
+* GET request (with a valid access token in the header), which returns all reviews associated with `restaurant_id` in the database
+
+To the `\review\<restaurant_id>\<max_number_of_reviews>\` endpoint, we support:
+
+* GET request (with a valid access token in the header), which returns maximum of max_number_of_reviews number of reviews associated with the restaurant. You do not have to worry whether the number you request exceeds the actual number of reviews present. For instance, if you request 1000 reviews for a restaurant that currently has 600 reviews, this endpoint will return 600 reviews present.
+
 
 # User API
 
@@ -278,6 +286,7 @@ To the `\users\` endpoint, we support:
 To the `\user\<user_id>\` endpoint, we support:
 
 * GET request (with an **admin** access token in the header, or with the jwt id of access token matching with `<user_id>` in the request param), which returns the specific user with `user_id` in the database.
-* PATCH request (with an **admin** access token in the header), which updates the user with `user_id` in the database with the request's body contents.
+* PATCH request (with an **admin** access token in the header), which updates the user with `user_id` in the database with the request's body contents. Frontend can send us `cluster_group_prefs` dictionary in the body json. For instance, `{"Desserts" : 3, "Bar": 7"}` (case insensitive string keys). PATCH request will internally map "Desserts" and "Bar" to corresponding cluster label number and store `{"2" : 3, "22": 3, "35": 3, "27": 7, "30": 7, "32": 7}` , since "Desserts" has three label numbers: 2, 22, 35, and "Bar" has three label numbers: 27, 30, 32.
+After this conversion, backend endpoint calls the DSCI usrprefgen/ POST request to update the user preferences.
 * DELETE request (with an **admin** access token in the header), which deletes the user with `user_id` in the database.
 
