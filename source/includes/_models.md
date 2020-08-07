@@ -99,6 +99,7 @@ restrictions | `ListField()` | Array of String | list of restrictions |
 Field Name | Code | Type | Description | Required
 ---------- | ---- | ---- | ----------- | --------
 preferences | `DictField(default = {})` | Dictionary (key = string, value = integer) | key-value pair of user preferences | 
+cluster_group_prefs | `DictField(default = {})` | Dictionary (key = string, value = integer) | key-value pair of cluster_group_prefs (https://docs.google.com/spreadsheets/d/108FCNhgjhSnSmJ-OyNcjUzSwVw2f7l6cF6dU--GoR9M/edit#gid=0)|
 processed_prefs | `DynamicField()` | Array of String | cached preferences after being processed by dsci |
 
 ### - Other
