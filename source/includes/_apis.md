@@ -290,3 +290,35 @@ To the `\user\<user_id>\` endpoint, we support:
 After this conversion, backend endpoint calls the DSCI usrprefgen/ POST request to update the user preferences.
 * DELETE request (with an **admin** access token in the header), which deletes the user with `user_id` in the database.
 
+
+# Search API
+
+The Search API provides one endpoint supporting a post request to handle search queries.
+To the `\search\` endpoint, we support:
+
+* POST request (with a valid access token in the header), where POST body contains parameters "user_coords" (a 2 element list containing the user's coordinate locations, "search_string" (the string the user entered in the omnibar), and "submenus" (see [dsci](#search-results) documentation). Returns the restaurant name mapped to all the items in that restaurant (which themselves are mapped to their individual scores) that the dsci algorithm recommended to us. Common error from this endpoint is encountered when a search is sent, but the user who owns that access token has and empty "processed_prefs" field on the data base.
+
+```python
+headers = {'Authorization': 'Bearer insert_access_token_here'}
+
+data = {"search_string": "american", "user_coords": [29.72154017, -95.39608383], "submenus":["all"]}
+response = requests.post("https://www.menubackend.com/search/", headers=headers, json=data) 
+print(response.text)
+```
+>{
+    "Arnaldo Richards' Picos": {
+        "items": {
+            "Napoleon de Ceviche con Pico de Piña y Mango (Gulf)": {
+                "score": 0.15216918229800092,
+                "rev": 8
+            },
+            "Pescador (South Pacific Coast)": {
+                "score": 0.1279348310431341,
+                "rev": 0
+            },
+            "Campechano": {
+                "score": 0.1279348310431341,
+                "rev": 0
+            }
+        }
+    }}
