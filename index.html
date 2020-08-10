@@ -372,6 +372,9 @@
             <a href="#user-api" class="toc-h1 toc-link" data-title="User API">User API</a>
           </li>
           <li>
+            <a href="#search-api" class="toc-h1 toc-link" data-title="Search API">Search API</a>
+          </li>
+          <li>
             <a href="#dsci-api" class="toc-h1 toc-link" data-title="DSCI API">DSCI API</a>
               <ul class="toc-list-h2">
                   <li>
@@ -696,6 +699,101 @@ To the <code>\users\</code> endpoint, we support:</p>
 After this conversion, backend endpoint calls the DSCI usrprefgen/ POST request to update the user preferences.</li>
 <li>DELETE request (with an <strong>admin</strong> access token in the header), which deletes the user with <code>user_id</code> in the database.</li>
 </ul>
+<h1 id='search-api'>Search API</h1>
+<p>The Search API provides one endpoint supporting a post request to handle search queries.
+To the <code>\search\</code> endpoint, send a POST request (with a logged in user&#39;s access token in the header), where POST body contains the following:</p>
+
+<ul>
+<li>(Required) <code>page</code>: An integer to represent which page the user has clicked on. The first page is page 0. This is required.
+
+<ul>
+<li>Example: <code>0</code>, <code>1</code>, <code>2</code>, <code>3</code>...</li>
+</ul></li>
+<li>(Optional) <code>user_coords</code>: a two-length list of latitude and longitude coordinatres from the user&#39;s location. This is optional, and if not provided the <code>loc</code> and <code>locscore</code> fields will be empty. 
+
+<ul>
+<li>Example: <code>[29.72154017, -95.39608383]</code></li>
+</ul></li>
+<li>(Optional) <code>search_string</code>: Any string that the user inputs from the search bar. This is supposed to be either a cuisine, restaurant name, cluster name, or food name. This is optional, and if not provided the return will just be the highest rated items for the user.
+
+<ul>
+<li>Example: <code>chinese</code>, <code>burgers</code>, <code>chicken</code>, <code>pizza</code></li>
+</ul></li>
+<li>(Optional) <code>submenus</code>: a list of submenus that the user selects. Can be any combination of strings from the list of all possible submenus (see right). Should either be &#39;all&#39; or a list of other strings. &#39;all&#39; automatically includes all other submenus, so including other submenus with it is redundant. Adding delivery or takeout means only restaurants with delivery or takeout&#39;s menu items are considered.
+
+<ul>
+<li>Example: <code>[&#39;all&#39;]</code>, <code>[&#39;delivery&#39;, &#39;dinner&#39;]</code></li>
+<li>All possible submenu filters: <code>[main, takeout, delivery, dessert, dinner, lunch, breakfast, pizza, sushi, appetizers, kids, brunch]</code></li>
+</ul></li>
+</ul>
+
+<p>Errors: In the case that <code>page</code> parameter is not included in the POST request body, returns <a href="#error-ids">error id 15</a>. If the <code>processed_prefs</code> field of the <a href="#user">user</a> is an empty list on the database, meaning a PATCH request was never sent to the <a href="#user-api">/user/<user_id>/</a> endpoint following user registration, returns <a href="#error-ids">error id 16</a>.</p>
+
+<p>Response: The response is a list where each recommended restaurant is represented by a dictionary with 6 keys:
+* <code>restaurant_object</code>: A dictionary containing all of the fields of the <a href="#restaurant">restaurant</a> model with the exception of <code>menudict</code>.
+* <code>items</code>: A dictionary where the keys are menu item&#39;s string names, and the values are dictionaries of the form {&quot;score&quot;: 0.23158002514783957, &quot;rev&quot;: 24}, where &quot;score&quot; is the item&#39;s recommendation score.
+* <code>item_sum_score</code>: The sum of item scores for that restaurant.
+* <code>rev_sum_score</code>: The sum of how the items were perceived in the reviews.
+* <code>loc</code>: Distance in miles of the restaurant from the user (0 if <code>user_coords</code> is not provided above).
+* <code>locscore</code>: Miles of location converted to a score (0 if <code>user_coords</code> is not provided above).</p>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">'Authorization'</span><span class="p">:</span> <span class="s">'Bearer insert_access_token_here'</span><span class="p">}</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s">"page"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s">"search_string"</span><span class="p">:</span> <span class="s">"breakfast"</span><span class="p">,</span> <span class="s">"submenus"</span><span class="p">:[</span><span class="s">"breakfast"</span><span class="p">],</span> <span class="s">"user_coords"</span><span class="p">:</span> <span class="p">[</span><span class="mf">29.72154017</span><span class="p">,</span> <span class="o">-</span><span class="mf">95.39608383</span><span class="p">]}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">"https://www.menubackend.com/search/"</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">)</span> 
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div>
+<blockquote>
+<p>[
+    {
+        &quot;restaurant_object&quot;: {
+            &quot;_id&quot;: &quot;ce64dcbe-5399-4be7-8f4b-88dc01b022b1&quot;,
+            &quot;name&quot;: &quot;The Original Ninfa&#39;s - Uptown Houston&quot;,
+            &quot;link&quot;: &quot;https://www.opentable.com/r/the-original-ninfas-uptown-houston?avt=eyJ2IjoxLCJtIjoxLCJwIjowfQ&amp;corrid=f458c3a2-b079-46d0-a159-e58fae678ba4&quot;,
+            &quot;rating&quot;: &quot;4.2&quot;,
+            &quot;attrs&quot;: {
+                &quot;piclink&quot;: &quot;https://images.otstatic.com/prod/26414663/4/medium.jpg&quot;,
+                &quot;addr&quot;: &quot;1700 Post Oak Blvd Houston, TX  77056&quot;,
+                &quot;diningstyle&quot;: &quot;Casual Dining&quot;,
+                &quot;dresscode&quot;: &quot;Casual Dress&quot;,
+                &quot;additional&quot;: &quot;Beer, Cocktails, Delivery, Full Bar, Outdoor dining, Private Room, Takeout, Weekend Brunch, Wine&quot;,
+                &quot;website&quot;: &quot;http://www.ninfas.com/&quot;
+            },
+            &quot;dollarsigncount&quot;: 2,
+            &quot;cuisine&quot;: &quot;Mexican&quot;,
+            &quot;revcount&quot;: 175,
+            &quot;loc&quot;: &quot;Galleria / Uptown&quot;
+        },
+        &quot;items&quot;: {
+            &quot;Bean, Egg, Cheese&quot;: {
+                &quot;score&quot;: 0.33183933558814865,
+                &quot;rev&quot;: 30
+            },
+            &quot;Fajita, Egg, Cheese&quot;: {
+                &quot;score&quot;: 0.2749612585690266,
+                &quot;rev&quot;: 24
+            },
+            &quot;Chorizo, Egg, Cheese&quot;: {
+                &quot;score&quot;: 0.23158002514783957,
+                &quot;rev&quot;: 24
+            },
+            &quot;Potato, Egg, Cheese&quot;: {
+                &quot;score&quot;: 0.22243416722471326,
+                &quot;rev&quot;: 24
+            },
+            &quot;Bacon, Egg, Cheese&quot;: {
+                &quot;score&quot;: 0.20954943656571773,
+                &quot;rev&quot;: 24
+            }
+        },
+        &quot;item_sum_score&quot;: 0.26302694106198093,
+        &quot;rev_sum_score&quot;: 0.6363636363636364,
+        &quot;loc&quot;: 4.408288309118191,
+        &quot;locscore&quot;: 0.04665314401622718
+    },
+   ...
+]</p>
+</blockquote>
 <h1 id='dsci-api'>DSCI API</h1>
 <p><strong>Note:</strong> Frontend should NOT call this directly; you should call backend&#39;s endpoint which then calls these.</p>
 <h2 id='reviews'>Reviews</h2><h3 id='post-to-usefulreviewsgen'>POST to /usefulreviewsgen/</h3><div class="highlight"><pre class="highlight python tab-python"><code><span class="c1"># Get useful reviews
@@ -1526,6 +1624,18 @@ After this conversion, backend endpoint calls the DSCI usrprefgen/ POST request 
 <td><code>wrong_login_route</code></td>
 <td>You cannot attempt login to <code>/auth/login/</code> without <code>user</code> access field being True</td>
 <td>401</td>
+</tr>
+<tr>
+<td>15</td>
+<td><code>unexpected_body_format</code></td>
+<td>Request body has format deviating from what is expected</td>
+<td>400</td>
+</tr>
+<tr>
+<td>16</td>
+<td><code>no_user_prefs</code></td>
+<td>User doesn&#39;t have processed preferences before searching</td>
+<td>500</td>
 </tr>
 </tbody></table>
 
