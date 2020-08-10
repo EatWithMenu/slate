@@ -294,31 +294,83 @@ After this conversion, backend endpoint calls the DSCI usrprefgen/ POST request 
 # Search API
 
 The Search API provides one endpoint supporting a post request to handle search queries.
-To the `\search\` endpoint, we support:
+To the `\search\` endpoint, send a POST request (with a logged in user's access token in the header), where POST body contains the following:
 
-* POST request (with a valid access token in the header), where POST body contains parameters "user_coords" (a 2 element list containing the user's coordinate locations, "search_string" (the string the user entered in the omnibar), and "submenus" (see [dsci](#search-results) documentation). Returns the restaurant name mapped to all the items in that restaurant (which themselves are mapped to their individual scores) that the dsci algorithm recommended to us. Common error from this endpoint is encountered when a search is sent, but the user who owns that access token has and empty "processed_prefs" field on the data base.
+* (Required) `page`: An integer to represent which page the user has clicked on. The first page is page 0. This is required.
+    * Example: `0`, `1`, `2`, `3`...
+* (Optional) `user_coords`: a two-length list of latitude and longitude coordinatres from the user's location. This is optional, and if not provided the `loc` and `locscore` fields will be empty. 
+    * Example: `[29.72154017, -95.39608383]`
+* (Optional) `search_string`: Any string that the user inputs from the search bar. This is supposed to be either a cuisine, restaurant name, cluster name, or food name. This is optional, and if not provided the return will just be the highest rated items for the user.
+    * Example: `chinese`, `burgers`, `chicken`, `pizza`
+* (Optional) `submenus`: a list of submenus that the user selects. Can be any combination of strings from the list of all possible submenus (see right). Should either be 'all' or a list of other strings. 'all' automatically includes all other submenus, so including other submenus with it is redundant. Adding delivery or takeout means only restaurants with delivery or takeout's menu items are considered.
+    * Example: `['all']`, `['delivery', 'dinner']`
+    * All possible submenu filters: `[main, takeout, delivery, dessert, dinner, lunch, breakfast, pizza, sushi, appetizers, kids, brunch]`
+
+Errors: In the case that `page` parameter is not included in the POST request body, returns [error id 15](#error-ids). If the `processed_prefs` field of the [user](#user) is an empty list on the database, meaning a PATCH request was never sent to the [/user/<user_id>/](#user-api) endpoint following user registration, returns [error id 16](#error-ids).
+
+Response: The response is a list where each recommended restaurant is represented by a dictionary with 6 keys:
+* `restaurant_object`: A dictionary containing all of the fields of the [restaurant](#restaurant) model with the exception of `menudict`.
+* `items`: A dictionary where the keys are menu item's string names, and the values are dictionaries of the form {"score": 0.23158002514783957, "rev": 24}, where "score" is the item's recommendation score.
+* `item_sum_score`: The sum of item scores for that restaurant.
+* `rev_sum_score`: The sum of how the items were perceived in the reviews.
+* `loc`: Distance in miles of the restaurant from the user (0 if `user_coords` is not provided above).
+* `locscore`: Miles of location converted to a score (0 if `user_coords` is not provided above).
+
 
 ```python
 headers = {'Authorization': 'Bearer insert_access_token_here'}
 
-data = {"search_string": "american", "user_coords": [29.72154017, -95.39608383], "submenus":["all"]}
+data = {"page": 0, "search_string": "breakfast", "submenus":["breakfast"], "user_coords": [29.72154017, -95.39608383]}
+
 response = requests.post("https://www.menubackend.com/search/", headers=headers, json=data) 
 print(response.text)
 ```
->{
-    "Arnaldo Richards' Picos": {
+>[
+    {
+        "restaurant_object": {
+            "_id": "ce64dcbe-5399-4be7-8f4b-88dc01b022b1",
+            "name": "The Original Ninfa's - Uptown Houston",
+            "link": "https://www.opentable.com/r/the-original-ninfas-uptown-houston?avt=eyJ2IjoxLCJtIjoxLCJwIjowfQ&corrid=f458c3a2-b079-46d0-a159-e58fae678ba4",
+            "rating": "4.2",
+            "attrs": {
+                "piclink": "https://images.otstatic.com/prod/26414663/4/medium.jpg",
+                "addr": "1700 Post Oak Blvd Houston, TX  77056",
+                "diningstyle": "Casual Dining",
+                "dresscode": "Casual Dress",
+                "additional": "Beer, Cocktails, Delivery, Full Bar, Outdoor dining, Private Room, Takeout, Weekend Brunch, Wine",
+                "website": "http://www.ninfas.com/"
+            },
+            "dollarsigncount": 2,
+            "cuisine": "Mexican",
+            "revcount": 175,
+            "loc": "Galleria / Uptown"
+        },
         "items": {
-            "Napoleon de Ceviche con Pico de Piña y Mango (Gulf)": {
-                "score": 0.15216918229800092,
-                "rev": 8
+            "Bean, Egg, Cheese": {
+                "score": 0.33183933558814865,
+                "rev": 30
             },
-            "Pescador (South Pacific Coast)": {
-                "score": 0.1279348310431341,
-                "rev": 0
+            "Fajita, Egg, Cheese": {
+                "score": 0.2749612585690266,
+                "rev": 24
             },
-            "Campechano": {
-                "score": 0.1279348310431341,
-                "rev": 0
+            "Chorizo, Egg, Cheese": {
+                "score": 0.23158002514783957,
+                "rev": 24
+            },
+            "Potato, Egg, Cheese": {
+                "score": 0.22243416722471326,
+                "rev": 24
+            },
+            "Bacon, Egg, Cheese": {
+                "score": 0.20954943656571773,
+                "rev": 24
             }
-        }
-    }}
+        },
+        "item_sum_score": 0.26302694106198093,
+        "rev_sum_score": 0.6363636363636364,
+        "loc": 4.408288309118191,
+        "locscore": 0.04665314401622718
+    },
+   ...
+]

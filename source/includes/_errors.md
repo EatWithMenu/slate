@@ -32,3 +32,5 @@ Error Id | Name of Error | Error message | Status Code
 12 | `mongodb_get_object_error` | MongoDB document get request has failed | 500
 13 | `all_other_error` | This error message corresponds to all other errors | 500
 14 | `wrong_login_route` | You cannot attempt login to `/auth/login/` without `user` access field being True | 401
+15 | `unexpected_body_format` | Request body has format deviating from what is expected | 400
+16 | `no_user_prefs` | User doesn't have processed preferences before searching | 500
