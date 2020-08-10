@@ -293,6 +293,8 @@ After this conversion, backend endpoint calls the DSCI usrprefgen/ POST request 
 
 # Search API
 
+### POST to /search/
+
 The Search API provides one endpoint supporting a post request to handle search queries.
 To the `\search\` endpoint, send a POST request (with a logged in user's access token in the header), where POST body contains the following:
 
@@ -309,6 +311,7 @@ To the `\search\` endpoint, send a POST request (with a logged in user's access 
 Errors: In the case that `page` parameter is not included in the POST request body, returns [error id 15](#error-ids). If the `processed_prefs` field of the [user](#user) is an empty list on the database, meaning a PATCH request was never sent to the [/user/<user_id>/](#user-api) endpoint following user registration, returns [error id 16](#error-ids).
 
 Response: The response is a list where each recommended restaurant is represented by a dictionary with 6 keys:
+
 * `restaurant_object`: A dictionary containing all of the fields of the [restaurant](#restaurant) model with the exception of `menudict`.
 * `items`: A dictionary where the keys are menu item's string names, and the values are dictionaries of the form {"score": 0.23158002514783957, "rev": 24}, where "score" is the item's recommendation score.
 * `item_sum_score`: The sum of item scores for that restaurant.
