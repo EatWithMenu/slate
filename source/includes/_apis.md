@@ -395,5 +395,5 @@ data = {"email": <email address>}
 response = requests.post("https://www.menubackend.com/interested/", json=data) 
 ```
 
->{'id': <mongoDB document _id>}
+>{'id': <"mongoDB document id">}
 
