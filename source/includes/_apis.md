@@ -379,3 +379,21 @@ print(response.text)
     },
    ...
 ]
+
+
+
+# Interested API
+
+### POST to /interested/
+
+This endpoint is specifically for storing beta-user-request email info into mongodb collection, to later send out emails on updates to our product
+The Interested API supports only one request: POST. Use the POST request for /interested/ endpoint to store an email address and a default timestamp to 'interested' collection. The signup_time field will default to the request time.
+
+```python
+data = {"email": <email address>}
+
+response = requests.post("https://www.menubackend.com/interested/", json=data) 
+```
+
+>{'id': <mongoDB document _id>}
+
