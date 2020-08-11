@@ -380,6 +380,14 @@
               </ul>
           </li>
           <li>
+            <a href="#interested-api" class="toc-h1 toc-link" data-title="Interested API">Interested API</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#post-to-interested" class="toc-h2 toc-link" data-title="POST to /interested/">POST to /interested/</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#dsci-api" class="toc-h1 toc-link" data-title="DSCI API">DSCI API</a>
               <ul class="toc-list-h2">
                   <li>
@@ -803,6 +811,16 @@ To the <code>\search\</code> endpoint, send a POST request (with a logged in use
     },
    ...
 ]</p>
+</blockquote>
+<h1 id='interested-api'>Interested API</h1><h3 id='post-to-interested'>POST to /interested/</h3>
+<p>This endpoint is specifically for storing beta-user-request email info into mongodb collection, to later send out emails on updates to our product
+The Interested API supports only one request: POST. Use the POST request for /interested/ endpoint to store an email address and a default timestamp to &#39;interested&#39; collection. The signup_time field will default to the request time.</p>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s">"email"</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">email</span> <span class="n">address</span><span class="o">&gt;</span><span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">"https://www.menubackend.com/interested/"</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">)</span> 
+</code></pre></div>
+<blockquote>
+<p>{&#39;id&#39;: <mongoDB document _id>}</p>
 </blockquote>
 <h1 id='dsci-api'>DSCI API</h1>
 <p><strong>Note:</strong> Frontend should NOT call this directly; you should call backend&#39;s endpoint which then calls these.</p>
