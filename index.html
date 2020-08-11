@@ -466,7 +466,7 @@
 <p>Registering a user is performed by sending a POST request to the endpoint at <code>/auth/signup/</code>. The body of the POST includes user information, including all required fields and any optional fields in the <a href="#user">user</a> model. The header must include <code>Content-Type: application/json</code>. If the username or email is already taken, returns an <a href="#errors">error</a> response. Upon success, the user&#39;s id is returned.</p>
 <h2 id='login'>Login</h2><h3 id='post-to-auth-login-native-login'>POST to /auth/login/ -- Native login</h3><div class="highlight"><pre class="highlight python tab-python"><code>
 <span class="c1"># Native user's password and email:
-</span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s">"password"</span><span class="p">:</span> <span class="s">"example_password"</span><span class="p">,</span> <span class="s">"email"</span><span class="p">:</span> <span class="s">"example@example.com"</span><span class="p">}</span>
+</span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s">"password"</span><span class="p">:</span> <span class="s">"example_password"</span><span class="p">,</span> <span class="s">"username_or_email"</span><span class="p">:</span> <span class="s">"example@example.com"</span> <span class="ow">or</span> <span class="s">"example"</span><span class="p">}</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">"https://www.menubackend.com/auth/login/"</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
@@ -476,12 +476,13 @@
     &quot;result&quot;: {
         &quot;access_token&quot;: &quot;eyJ0eXAiOiJKV1QiLCJhbGciO...&quot;,
         &quot;logged_in_as&quot;: &quot;example_username&quot;,
-        &quot;refresh_token&quot;: &quot;eyJ0eXAiOiJKV1QiLCJhbGciO...&quot;
+        &quot;refresh_token&quot;: &quot;eyJ0eXAiOiJKV1QiLCJhbGciO...&quot;,
+        &quot;user_id&quot;: &quot;5f0fb5503cb6921b32c6b...&quot;,
     }
 }</p>
 </blockquote>
 
-<p>The native login API takes a POST request containing the user&#39;s email and password. If successful, returns a JSON response containing a newly created access token and refresh token. If the user has not already registered (i.e., is not on the database), tokens will not be issued and an <a href="#errors">error</a> response is returned. Again requires the <code>Content-Type: application/json</code> header.</p>
+<p>The native login API takes a POST request containing the user&#39;s (username or email) and (password). If successful, returns a JSON response containing a newly created access token and refresh token. If the user has not already registered (i.e., is not on the database), tokens will not be issued and an <a href="#errors">error</a> response is returned. Again requires the <code>Content-Type: application/json</code> header.</p>
 <h3 id='post-to-auth-login-google-google-login'>POST to /auth/login/google/ -- Google login</h3><div class="highlight"><pre class="highlight python tab-python"><code><span class="c1"># Google user's ID token obtained from Google's login API:
 </span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s">"id_token"</span><span class="p">:</span> <span class="s">"insert_google_id_token_here"</span><span class="p">}</span>
 
@@ -493,7 +494,8 @@
     &quot;result&quot;: {
         &quot;access_token&quot;: &quot;eyJ0eXAiOiJKV1QiLCJhbGciO...&quot;,
         &quot;logged_in_as&quot;: &quot;example_username&quot;,
-        &quot;refresh_token&quot;: &quot;eyJ0eXAiOiJKV1QiLCJhbGciO...&quot;
+        &quot;refresh_token&quot;: &quot;eyJ0eXAiOiJKV1QiLCJhbGciO...&quot;,
+        &quot;user_id&quot;: &quot;5f0fb5503cb6921b32c6b...&quot;,
     }
 }</p>
 </blockquote>
