@@ -29,7 +29,7 @@ Registering a user is performed by sending a POST request to the endpoint at `/a
 ```python
 
 # Native user's password and email:
-data = {"password": "example_password", "email": "example@example.com"}
+data = {"password": "example_password", "username_or_email": "example@example.com" or "example"}
 
 response = requests.post("https://www.menubackend.com/auth/login/", json=data)
 print(response.text)
@@ -38,11 +38,12 @@ print(response.text)
     "result": {
         "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciO...",
         "logged_in_as": "example_username",
-        "refresh_token": "eyJ0eXAiOiJKV1QiLCJhbGciO..."
+        "refresh_token": "eyJ0eXAiOiJKV1QiLCJhbGciO...",
+        "user_id": "5f0fb5503cb6921b32c6b...",
     }
 }
 
-The native login API takes a POST request containing the user's email and password. If successful, returns a JSON response containing a newly created access token and refresh token. If the user has not already registered (i.e., is not on the database), tokens will not be issued and an [error](#errors) response is returned. Again requires the `Content-Type: application/json` header.
+The native login API takes a POST request containing the user's (username or email) and (password). If successful, returns a JSON response containing a newly created access token and refresh token. If the user has not already registered (i.e., is not on the database), tokens will not be issued and an [error](#errors) response is returned. Again requires the `Content-Type: application/json` header.
 
 ### POST to /auth/login/google/ -- Google login
 
@@ -57,7 +58,8 @@ print(response.text)
     "result": {
         "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciO...",
         "logged_in_as": "example_username",
-        "refresh_token": "eyJ0eXAiOiJKV1QiLCJhbGciO..."
+        "refresh_token": "eyJ0eXAiOiJKV1QiLCJhbGciO...",
+        "user_id": "5f0fb5503cb6921b32c6b...",
     }
 }
 
